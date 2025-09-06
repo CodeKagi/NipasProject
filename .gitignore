@@ -17,8 +17,9 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
-*.suo
-*.ntvs*
+*.suo   20 th; street
+
+0722 702 687*.ntvs*
 *.njsproj
 *.sln
 *.sw?

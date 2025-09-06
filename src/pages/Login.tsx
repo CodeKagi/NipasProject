@@ -1,22 +1,31 @@
 import { useState } from 'react';
 import { FaGoogle, FaFacebook, FaApple, FaEye, FaEyeSlash } from 'react-icons/fa';
+import ForgotPasswordModal from '../components/ForgotPasswordModal';
 
 export default function Login() {
-   const [isSignUp, setIsSignUp] = useState(true)
+    const [isSignUp, setIsSignUp] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
+    const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
+
     return (
         <div className="h-screen flex items-center justify-center ">
             <div className="flex w-full max-w-6xl bg-white rounded shadow overflow-hidden">
 
-                {/* Left column: Image */}
-                <div className="hidden md:block md:w-1/2 h-[700px]">
+                {/* Left column: Image with overlay */}
+                <div className="relative hidden md:block md:w-1/2 h-[700px]">
                     <img
                         src="https://via.placeholder.com/500x700"
                         alt="Placeholder"
                         className="h-full w-4/5 object-cover bg-gray-400 mx-auto"
                     />
+
+                    {/* Overlay div */}
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4/5 bg-[#3F842E] text-white text-center py-4">
+                        <p className="text-lg font-semibold">Lets grow Province together</p>
+                    </div>
                 </div>
+
 
                 {/* Right column: Sign Up Form */}
                 <div className="w-full md:w-1/2 p-8">
@@ -45,7 +54,7 @@ export default function Login() {
                                         <label className="block mb-1 text-sm font-medium">First Name</label>
                                         <input
                                             type="text"
-                                            placeholder="First Name"
+                                            placeholder="e.g Jane"
                                             className="w-full px-4 py-1.5 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100"
                                         />
                                     </div>
@@ -53,7 +62,7 @@ export default function Login() {
                                         <label className="block mb-1 text-sm font-medium">Last Name</label>
                                         <input
                                             type="text"
-                                            placeholder="Last Name"
+                                            placeholder="e.g Doe"
                                             className="w-full px-4 py-1.5 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100"
                                         />
                                     </div>
@@ -64,48 +73,48 @@ export default function Login() {
                                     <label className="block mb-1 text-sm font-medium">Email</label>
                                     <input
                                         type="email"
-                                        placeholder="Enter your email"
+                                        placeholder="email@example.com"
                                         className="w-full px-4 py-1.5 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100"
                                     />
                                 </div>
 
-                          {/* Password */}
-                            <div className="relative mb-4 flex flex-col">
-                                <label className="block mb-1 font-medium text-sm">Password</label>
-                                <div className="relative">
-                                    <input
-                                        type={showPassword ? 'text' : 'password'}
-                                        placeholder="Enter your password"
-                                        className="bg-gray-100 w-full px-4 py-1.5 pr-10 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-gray-500"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500"
-                                    >
-                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
-                                    </button>
+                                {/* Password */}
+                                <div className="relative mb-4 flex flex-col">
+                                    <label className="block mb-1 font-medium text-sm">Password</label>
+                                    <div className="relative">
+                                        <input
+                                            type={showPassword ? 'text' : 'password'}
+                                            placeholder="Enter at least 8+ characters"
+                                            className="bg-gray-100 w-full px-4 py-1.5 pr-10 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-gray-500"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500"
+                                        >
+                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Re-enter Password */}
-                            <div className="relative flex flex-col">
-                                <label className="block mb-1 font-medium text-sm">Re-enter Password</label>
-                                <div className="relative">
-                                    <input
-                                        type={showConfirm ? 'text' : 'password'}
-                                        placeholder="Re-enter your password"
-                                        className="bg-gray-100 w-full px-4 py-1.5 pr-10 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-gray-500"
-                                    />
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowConfirm(!showConfirm)}
-                                        className="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500"
-                                    >
-                                        {showConfirm ? <FaEyeSlash /> : <FaEye />}
-                                    </button>
+                                {/* Re-enter Password */}
+                                <div className="relative flex flex-col">
+                                    <label className="block mb-1 font-medium text-sm">Re-enter Password</label>
+                                    <div className="relative">
+                                        <input
+                                            type={showConfirm ? 'text' : 'password'}
+                                            placeholder="Enter at least 8+ characters"
+                                            className="bg-gray-100 w-full px-4 py-1.5 pr-10 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-gray-500"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowConfirm(!showConfirm)}
+                                            className="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500"
+                                        >
+                                            {showConfirm ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
 
                                 {/* Terms */}
                                 <div className="flex items-center text-sm">
@@ -118,7 +127,7 @@ export default function Login() {
                                 {/* Sign Up button */}
                                 <button
                                     type="submit"
-                                    className="w-full py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition"
+                                    className="w-full py-2 bg-[#3F842E] text-white font-semibold rounded hover:bg-green-700 transition"
                                 >
                                     Sign Up
                                 </button>
@@ -130,42 +139,55 @@ export default function Login() {
                                     <label className="block mb-1 text-sm font-medium">Email</label>
                                     <input
                                         type="email"
-                                        placeholder="Enter your email"
+                                        placeholder="email@example.com"
                                         className="w-full px-4 py-1.5 border rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-100"
                                     />
                                 </div>
 
 
-                                
-                          {/* Password */}
-                            <div className="relative mb-4 flex flex-col">
-                                <label className="block mb-1 font-medium text-sm">Password</label>
-                                <div className="relative">
-                                    <input
-                                        type={showPassword ? 'text' : 'password'}
-                                        placeholder="Enter your password"
-                                        className="bg-gray-100 w-full px-4 py-1.5 pr-10 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-gray-500"
-                                    />
+
+                                {/* Password */}
+                                <div className="relative mb-4 flex flex-col">
+                                    <label className="block mb-1 font-medium text-sm">Password</label>
+                                    <div className="relative">
+                                        <input
+                                            type={showPassword ? 'text' : 'password'}
+                                            placeholder="Enter at least 8+ characters"
+                                            className="bg-gray-100 w-full px-4 py-1.5 pr-10 border rounded text-sm focus:outline-none focus:ring-1 focus:ring-gray-500"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                            className="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500"
+                                        >
+                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Remember me + Forgot password */}
+                                <div className="flex items-center justify-between text-sm w-full">
+                                    {/* Left: Remember me */}
+                                    <div className="flex items-center">
+                                        <input type="checkbox" id="remember" className="mr-2" />
+                                        <label htmlFor="remember">Remember me</label>
+                                    </div>
+
                                     <button
                                         type="button"
-                                        onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500"
+                                        onClick={() => setIsForgotModalOpen(true)}
+                                        className="text-[#D65141] hover:underline"
                                     >
-                                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                        Forgot your password?
                                     </button>
-                                </div>
-                            </div>
 
-                                {/* Remember me */}
-                                <div className="flex items-center text-sm">
-                                    <input type="checkbox" id="remember" className="mr-2" />
-                                    <label htmlFor="remember">Remember me</label>
                                 </div>
+
 
                                 {/* Sign In button */}
                                 <button
                                     type="submit"
-                                    className="w-full py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700 transition"
+                                    className="w-full py-2 bg-[#3F842E] text-white font-semibold rounded hover:bg-green-700 transition"
                                 >
                                     Sign In
                                 </button>
@@ -179,7 +201,7 @@ export default function Login() {
                             <hr className="flex-1 border-gray-300" />
                         </div>
 
-                               <p className="text-center text-sm text-gray-500 font-medium mb-3">
+                        <p className="text-center text-sm text-gray-500 font-medium mb-3">
                             {isSignUp ? 'Sign Up With' : 'Log In With'}
                         </p>
 
@@ -211,6 +233,11 @@ export default function Login() {
                     </div>
                 </div>
             </div>
+            {/* Forgot Password Modal */}
+            <ForgotPasswordModal
+                isOpen={isForgotModalOpen}
+                onClose={() => setIsForgotModalOpen(false)}
+            />
         </div>
     )
 }
