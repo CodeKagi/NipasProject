@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import forgotPasswordLogo from "../assets/forgotPasswordLogo.svg";
+import logo from "../assets/dedect.svg";
 import thankYouTick from "../assets/thankYouTick.svg"; // ✅ new success logo
 
 interface ForgotPasswordModalProps {
@@ -72,7 +72,7 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
           <div className="w-[23rem] mx-auto flex flex-col items-center text-center">
             {/* Logo */}
             <img
-              src={step === "success" ? thankYouTick : forgotPasswordLogo}
+              src={step === "success" ? thankYouTick : logo}
               alt="Logo"
               className="h-16 mb-4"
             />
@@ -116,8 +116,7 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
                 </div>
                 <button
                   className="w-full py-2 bg-[#3F842E] text-white font-semibold rounded hover:bg-green-700 transition"
-                  onClick={() => setStep("verify")}
-                >
+                  onClick={() => setStep("verify")}>
                   Reset Password
                 </button>
               </>

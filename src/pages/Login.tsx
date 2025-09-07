@@ -1,12 +1,29 @@
-import { useState } from 'react';
-import { FaGoogle, FaFacebook, FaApple, FaEye, FaEyeSlash } from 'react-icons/fa';
-import ForgotPasswordModal from '../components/ForgotPasswordModal';
+import {useState} from 'react';
+import {FaApple, FaEye, FaEyeSlash, FaFacebook, FaGoogle} from 'react-icons/fa';
+import ModalComponent from "../components/ModalComponent.tsx";
+import logo from "../assets/dedect.svg";
 
 export default function Login() {
-    const [isSignUp, setIsSignUp] = useState(true)
+    const [isSignUp, setIsSignUp] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
-    const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [step, setStep] = useState<"reset" | "verify" | "create" | "success">("reset");
+
+    const handleModalClose = () => {
+        setModalOpen(false);
+        // Reset the step state
+        setStep("reset");
+    }
+
+    const handleStepChange = (data: any) => {
+        if (data === 'close') {
+            setStep('reset');
+            setModalOpen(false);
+        } else {
+            setStep(data);
+        }
+    }
 
     return (
         <div className="h-screen flex items-center justify-center ">
@@ -21,7 +38,8 @@ export default function Login() {
                     />
 
                     {/* Overlay div */}
-                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4/5 bg-[#3F842E] text-white text-center py-4">
+                    <div
+                        className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-4/5 bg-[#3F842E] text-white text-center py-4">
                         <p className="text-lg font-semibold">Lets grow Province together</p>
                     </div>
                 </div>
@@ -32,11 +50,11 @@ export default function Login() {
 
                     <div className=' w-4/5'>
                         {/* Logo */}
-                        <div className="flex justify-left mb-1">
+                        <div className="flex justify-center mb-1">
                             <img
-                                src="https://via.placeholder.com/80x80"
+                                src={logo}
                                 alt="Logo"
-                                className="h-10 w-20"
+                                className="h-20 w-1/2"
                             />
                         </div>
 
@@ -92,7 +110,7 @@ export default function Login() {
                                             onClick={() => setShowPassword(!showPassword)}
                                             className="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500"
                                         >
-                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                            {showPassword ? <FaEyeSlash/> : <FaEye/>}
                                         </button>
                                     </div>
                                 </div>
@@ -111,16 +129,17 @@ export default function Login() {
                                             onClick={() => setShowConfirm(!showConfirm)}
                                             className="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500"
                                         >
-                                            {showConfirm ? <FaEyeSlash /> : <FaEye />}
+                                            {showConfirm ? <FaEyeSlash/> : <FaEye/>}
                                         </button>
                                     </div>
                                 </div>
 
                                 {/* Terms */}
                                 <div className="flex items-center text-sm">
-                                    <input type="checkbox" id="terms" className="mr-2" />
+                                    <input type="checkbox" id="terms" className="mr-2"/>
                                     <label htmlFor="terms">
-                                        By signing up, I agree with <span className="text-red-600">Terms of Use</span> & <span className="text-red-600">Privacy Policy</span>
+                                        By signing up, I agree with <span
+                                        className="text-red-600">Terms of Use</span> & <span className="text-red-600">Privacy Policy</span>
                                     </label>
                                 </div>
 
@@ -145,7 +164,6 @@ export default function Login() {
                                 </div>
 
 
-
                                 {/* Password */}
                                 <div className="relative mb-4 flex flex-col">
                                     <label className="block mb-1 font-medium text-sm">Password</label>
@@ -160,7 +178,7 @@ export default function Login() {
                                             onClick={() => setShowPassword(!showPassword)}
                                             className="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500"
                                         >
-                                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                            {showPassword ? <FaEyeSlash/> : <FaEye/>}
                                         </button>
                                     </div>
                                 </div>
@@ -169,13 +187,13 @@ export default function Login() {
                                 <div className="flex items-center justify-between text-sm w-full">
                                     {/* Left: Remember me */}
                                     <div className="flex items-center">
-                                        <input type="checkbox" id="remember" className="mr-2" />
+                                        <input type="checkbox" id="remember" className="mr-2"/>
                                         <label htmlFor="remember">Remember me</label>
                                     </div>
 
                                     <button
                                         type="button"
-                                        onClick={() => setIsForgotModalOpen(true)}
+                                        onClick={() => setModalOpen(true)}
                                         className="text-[#D65141] hover:underline"
                                     >
                                         Forgot your password?
@@ -196,9 +214,9 @@ export default function Login() {
 
                         {/* OR / Social Buttons */}
                         <div className="flex items-center my-4">
-                            <hr className="flex-1 border-gray-300" />
+                            <hr className="flex-1 border-gray-300"/>
                             <span className="mx-2 text-gray-400 text-sm">OR</span>
-                            <hr className="flex-1 border-gray-300" />
+                            <hr className="flex-1 border-gray-300"/>
                         </div>
 
                         <p className="text-center text-sm text-gray-500 font-medium mb-3">
@@ -207,16 +225,19 @@ export default function Login() {
 
                         <div className="flex justify-center gap-4 mb-4">
                             {/* Google */}
-                            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-red-600 hover:bg-red-700 transition">
-                                <FaGoogle className="text-white" />
+                            <button
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-red-600 hover:bg-red-700 transition">
+                                <FaGoogle className="text-white"/>
                             </button>
                             {/* Facebook */}
-                            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 transition">
-                                <FaFacebook className="text-white" />
+                            <button
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-blue-600 hover:bg-blue-700 transition">
+                                <FaFacebook className="text-white"/>
                             </button>
                             {/* Apple */}
-                            <button className="w-10 h-10 flex items-center justify-center rounded-full bg-black hover:bg-gray-800 transition">
-                                <FaApple className="text-white" />
+                            <button
+                                className="w-10 h-10 flex items-center justify-center rounded-full bg-black hover:bg-gray-800 transition">
+                                <FaApple className="text-white"/>
                             </button>
                         </div>
 
@@ -233,11 +254,9 @@ export default function Login() {
                     </div>
                 </div>
             </div>
-            {/* Forgot Password Modal */}
-            <ForgotPasswordModal
-                isOpen={isForgotModalOpen}
-                onClose={() => setIsForgotModalOpen(false)}
-            />
+
+            {/* Modal */}
+            <ModalComponent step={step} isOpen={modalOpen} onClose={handleModalClose} onStepChange={handleStepChange}/>
         </div>
     )
 }
