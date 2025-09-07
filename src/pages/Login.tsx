@@ -246,8 +246,7 @@ export default function Login() {
                             {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
                             <button
                                 className="text-red-600 font-medium"
-                                onClick={() => setIsSignUp(!isSignUp)}
-                            >
+                                onClick={() => setIsSignUp(!isSignUp)}>
                                 {isSignUp ? 'Log In' : 'Sign Up'}
                             </button>
                         </p>

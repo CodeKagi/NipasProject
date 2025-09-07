@@ -3,6 +3,7 @@ import ChangePasswordStep from "./ChangePasswordStep.tsx";
 import ResetPasswordStep from "./ResetPasswordStep.tsx";
 import UpdatedPasswordStep from "./UpdatedPasswordStep.tsx";
 import VerifyEmailStep from "./VerifyEmailStep.tsx";
+import tick from "../assets/thankYouTick.svg";
 
 interface ModalProps {
     step: string;
@@ -39,7 +40,11 @@ export default function ModalComponent({step, onStepChange, isOpen, onClose}: Mo
 
                     <div className="w-[23rem] mx-auto flex flex-col items-center text-center">
                         {/* Logo */}
-                        <img src={logo} alt="Logo" className="h-16 mb-4"/>
+                        <img
+                            src={step === "success" ? tick : logo}
+                            alt="Logo"
+                            className="h-16 mb-4"
+                        />
 
                         {/* Step content */}
                         {step === "create" && (<ChangePasswordStep heading="Create New Password"
