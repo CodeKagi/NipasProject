@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import forgotPasswordLogo from "../assets/forgotPasswordLogo.svg"; // adjust path
-import thankYouTick from "../assets/thankYouTick.svg"; // adjust path
+import forgotPasswordLogo from "../assets/forgotPasswordLogo.svg";
+import thankYouTick from "../assets/thankYouTick.svg";
 
 interface VerifyEmailModalProps {
     isOpen: boolean;
