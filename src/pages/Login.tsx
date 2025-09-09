@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { FaGoogle, FaFacebook, FaApple, FaEye, FaEyeSlash } from 'react-icons/fa';
 import ForgotPasswordModal from '../components/ForgotPasswordModal';
+import VerifyEmailModal from '../components/VerifyEmailModal';
 
 export default function Login() {
     const [isSignUp, setIsSignUp] = useState(true)
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirm, setShowConfirm] = useState(false)
     const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
+    const [isVerifyEmailOpen, setIsVerifyEmailOpen] = useState(false);
 
     return (
         <div className="h-screen flex items-center justify-center ">
@@ -126,11 +128,13 @@ export default function Login() {
 
                                 {/* Sign Up button */}
                                 <button
-                                    type="submit"
+                                    type="button" // ⬅ change from "submit" to "button"
+                                    onClick={() => setIsVerifyEmailOpen(true)}
                                     className="w-full py-2 bg-[#3F842E] text-white font-semibold rounded hover:bg-green-700 transition"
                                 >
                                     Sign Up
                                 </button>
+
                             </form>
                         ) : (
                             <form className="space-y-4">
@@ -237,6 +241,12 @@ export default function Login() {
             <ForgotPasswordModal
                 isOpen={isForgotModalOpen}
                 onClose={() => setIsForgotModalOpen(false)}
+            />
+
+            {/* Vverify Email Modal */}
+            <VerifyEmailModal
+                isOpen={isVerifyEmailOpen}
+                onClose={() => setIsVerifyEmailOpen(false)}
             />
         </div>
     )
