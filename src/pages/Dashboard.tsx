@@ -1,61 +1,62 @@
+import { useState } from "react";
 import TopNav from "../components/TopNav";
 import Sidebar from "../components/Sidebar";
 
 export default function Dashboard() {
-  return (
-    <div className="h-screen flex flex-col relative">
-      <TopNav />
-      <Sidebar />
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-      {/* Main content */}
-      <main className="flex-1 overflow-y-auto p-6 ml-[351px] mt-[27px]">
-        <h1 className="text-2xl font-bold text-[#3F842E] mb-4">Dashboard</h1>
-        <p className="text-gray-700">
-          Main dashboard content goes here. Scrollable while nav stays sticky.
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat ad aspernatur optio maiores voluptates magni
-             commodi unde aliquid, magnam natus aperiam. Nemo rem molestiae pariatur accusantium quisquam odit porro voluptatibus!</p>
-                 <p className="text-gray-700">
-          Main dashboard content goes here. Scrollable while nav stays sticky.
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat ad aspernatur optio maiores voluptates magni
-             commodi unde aliquid, magnam natus aperiam. Nemo rem molestiae pariatur accusantium quisquam odit porro voluptatibus!</p>
-                 <p className="text-gray-700">
-          Main dashboard content goes here. Scrollable while nav stays sticky.
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat ad aspernatur optio maiores voluptates magni
-             commodi unde aliquid, magnam natus aperiam. Nemo rem molestiae pariatur accusantium quisquam odit porro voluptatibus!</p>
-                 <p className="text-gray-700">
-          Main dashboard content goes here. Scrollable while nav stays sticky.
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat ad aspernatur optio maiores voluptates magni
-             commodi unde aliquid, magnam natus aperiam. Nemo rem molestiae pariatur accusantium quisquam odit porro voluptatibus!</p>
-                 <p className="text-gray-700">
-          Main dashboard content goes here. Scrollable while nav stays sticky.
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat ad aspernatur optio maiores voluptates magni
-             commodi unde aliquid, magnam natus aperiam. Nemo rem molestiae pariatur accusantium quisquam odit porro voluptatibus!</p>
-                 <p className="text-gray-700">
-          Main dashboard content goes here. Scrollable while nav stays sticky.
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat ad aspernatur optio maiores voluptates magni
-             commodi unde aliquid, magnam natus aperiam. Nemo rem molestiae pariatur accusantium quisquam odit porro voluptatibus!</p>
-                 <p className="text-gray-700">
-          Main dashboard content goes here. Scrollable while nav stays sticky.
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat ad aspernatur optio maiores voluptates magni
-             commodi unde aliquid, magnam natus aperiam. Nemo rem molestiae pariatur accusantium quisquam odit porro voluptatibus!</p>
-                 <p className="text-gray-700">
-          Main dashboard content goes here. Scrollable while nav stays sticky.
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat ad aspernatur optio maiores voluptates magni
-             commodi unde aliquid, magnam natus aperiam. Nemo rem molestiae pariatur accusantium quisquam odit porro voluptatibus!</p>
-                 <p className="text-gray-700">
-          Main dashboard content goes here. Scrollable while nav stays sticky.
-        </p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat ad aspernatur optio maiores voluptates magni
-             commodi unde aliquid, magnam natus aperiam. Nemo rem molestiae pariatur accusantium quisquam odit porro voluptatibus!</p>
-      </main>
+  return (
+    <div className="h-screen flex flex-col">
+      <TopNav />
+
+      <div className="flex flex-1 relative">
+        {/* Sidebar */}
+        <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} />
+
+        {/* Main content */}
+        <div
+          className="flex-1 overflow-y-auto p-6 transition-all duration-300"
+          style={{
+            marginLeft: sidebarCollapsed ? "114px" : "334px", // adjust to match sidebar width + left offset
+          }}
+        >
+          <h1 className="text-2xl font-bold text-[#3F842E] mb-4">Dashboard</h1>
+          <p className="text-gray-700">
+            Main dashboard content goes here. Scrollable while nav stays sticky.
+          </p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+               <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+               <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+               <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+
+               <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+               <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+          <p>Lorem ipsum dolor sit amet...</p>
+        </div>
+      </div>
     </div>
   );
 }
