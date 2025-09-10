@@ -11,3 +11,7 @@
      small {
         left: calc(50% - 50px);
      }
+
+     body {
+  font-family: 'Inter', sans-serif;
+}

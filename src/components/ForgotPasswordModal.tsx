@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import forgotPasswordLogo from "../assets/forgotPasswordLogo.svg";
 import thankYouTick from "../assets/thankYouTick.svg"; // ✅ new success logo
+import { Button, Input } from "antd";
 
 interface ForgotPasswordModalProps {
   isOpen: boolean;
@@ -76,6 +77,8 @@ export default function ForgotPasswordModal({ isOpen, onClose }: ForgotPasswordM
               alt="Logo"
               className="h-16 mb-4"
             />
+
+            
 
             {/* Heading */}
             <h2 className="text-2xl font-bold mb-2 text-[#3F842E]">

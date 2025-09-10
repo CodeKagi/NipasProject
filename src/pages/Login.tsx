@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { FaGoogle, FaFacebook, FaApple, FaEye, FaEyeSlash } from 'react-icons/fa';
 import ForgotPasswordModal from '../components/ForgotPasswordModal';
 import VerifyEmailModal from '../components/VerifyEmailModal';
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
     const [isSignUp, setIsSignUp] = useState(true)
@@ -9,6 +10,13 @@ export default function Login() {
     const [showConfirm, setShowConfirm] = useState(false)
     const [isForgotModalOpen, setIsForgotModalOpen] = useState(false);
     const [isVerifyEmailOpen, setIsVerifyEmailOpen] = useState(false);
+
+    const navigate = useNavigate();
+
+    const handleSignIn = () => {
+        // no real auth logic, just redirect
+        navigate("/dashboard");
+    };
 
     return (
         <div className="h-screen flex items-center justify-center ">
@@ -188,9 +196,11 @@ export default function Login() {
                                 </div>
 
 
+
                                 {/* Sign In button */}
                                 <button
-                                    type="submit"
+                                    type="button"
+                                    onClick={handleSignIn}
                                     className="w-full py-2 bg-[#3F842E] text-white font-semibold rounded hover:bg-green-700 transition"
                                 >
                                     Sign In
