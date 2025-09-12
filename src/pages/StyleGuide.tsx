@@ -9,15 +9,15 @@ export default function StyleGuide() {
 
   const componentsList = [
     { key: "topnav", label: "Top Navigation", color: "#3F842E" },
-    { key: "sidenav", label: "Sidebar", color: "#0076B7" },
-    { key: "cardDetails", label: "Card Details", color: "#AF144B" },
-    { key: "signature", label: "Signature", color: "#FF9900" },
-    { key: "buttons", label: "Buttons", color: "#6C5CE7" },
-    { key: "inputs", label: "Inputs", color: "#00B894" },
-    { key: "dropdowns", label: "Dropdowns", color: "#0984E3" },
-    { key: "accordions", label: "Accordions", color: "#D63031" },
-    { key: "badges", label: "Badges", color: "#FD79A8" },
-    { key: "cards", label: "Cards", color: "#E17055" },
+    { key: "sidenav", label: "Sidebar", color: "#3F842E" },
+    { key: "cardDetails", label: "Card Details", color: "#3F842E" },
+    { key: "signature", label: "Signature", color: "#3F842E" },
+    { key: "buttons", label: "Buttons", color: "#3F842E" },
+    { key: "inputs", label: "Inputs", color: "#3F842E" },
+    { key: "dropdowns", label: "Dropdowns", color: "#3F842E" },
+    { key: "accordions", label: "Accordions", color: "#3F842E" },
+    { key: "badges", label: "Badges", color: "#3F842E" },
+    { key: "cards", label: "Cards", color: "#3F842E" },
   ];
 
   const sectionRefs = useRef<{ [key: string]: HTMLElement | null }>({});
