@@ -129,7 +129,7 @@ export default function StyleGuide() {
                 {comp.key === "topnav" && <TopNav />}
                 {comp.key === "sidenav" && (
                   <div className="flex gap-6 items-start">
-                    <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} isPreview={true}  onSelect={() => {}}/>
+                    <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} isPreview={true} />
                     <div className="flex flex-col gap-4">
                       <button
                         onClick={() => setCollapsed(!collapsed)}
