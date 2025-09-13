@@ -6,6 +6,7 @@ export default function StyleGuide() {
   const [collapsed, setCollapsed] = useState(false);
   const [activeSection, setActiveSection] = useState("topnav");
   const [themeMap, setThemeMap] = useState<{ [key: string]: "light" | "dark" }>({});
+  const [selectedMenu, setSelectedMenu] = useState<string | null>(null);
 
   const componentsList = [
     { key: "topnav", label: "Top Navigation", color: "#3F842E" },
@@ -128,7 +129,7 @@ export default function StyleGuide() {
                 {comp.key === "topnav" && <TopNav />}
                 {comp.key === "sidenav" && (
                   <div className="flex gap-6 items-start">
-                    <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} isPreview={true} />
+                    <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} isPreview={true}  onSelect={() => {}}/>
                     <div className="flex flex-col gap-4">
                       <button
                         onClick={() => setCollapsed(!collapsed)}

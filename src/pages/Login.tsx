@@ -15,7 +15,7 @@ export default function Login() {
 
     const handleSignIn = () => {
         // no real auth logic, just redirect
-        navigate("/styleguide");
+        navigate("/dashboard");
     };
 
     return (

@@ -11,41 +11,38 @@ import userProfileIcon from "../assets/userProfileIcon.svg";
 interface SidebarProps {
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
-   isPreview?: boolean; 
+  isPreview?: boolean;
+ onSelect?: (key: string) => void;
 }
 
-export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: SidebarProps) {
+export default function Sidebar({ collapsed, setCollapsed, isPreview = false, onSelect }: SidebarProps) {
+  const [selectedKey, setSelectedKey] = React.useState("dashboard");
+
   const items = [
-    { key: "1", icon: <img src={dashBoardIcon} alt="Dashboard" className="w-6 h-6" />, label: "Dashboard" },
-    { key: "2", icon: <img src={userProfileIcon} alt="User Profile" className="w-6 h-6" />, label: "User Profile" },
-    { key: "3", icon: <img src={biodiversityProjectsIcon} alt="Biodiversity Projects" className="w-6 h-6" />, label: "Biodiversity Projects" },
-    { key: "4", icon: <img src={stakeholderIcon} alt="Stakeholder" className="w-6 h-6" />, label: "Stakeholder" },
+    { key: "dashboard", icon: <img src={dashBoardIcon} alt="Dashboard" className="w-6 h-6" />, label: "Dashboard" },
+    { key: "userProfile", icon: <img src={userProfileIcon} alt="User Profile" className="w-6 h-6" />, label: "User Profile" },
+    { key: "biodiversityProjects", icon: <img src={biodiversityProjectsIcon} alt="Biodiversity Projects" className="w-6 h-6" />, label: "Biodiversity Projects" },
+    { key: "stakeholder", icon: <img src={stakeholderIcon} alt="Stakeholder" className="w-6 h-6" />, label: "Stakeholder" },
   ];
 
   return (
-<aside
-            className={`bg-white border-[5px] border-[#3F842E] rounded-[50px] shadow-lg flex flex-col transition-all duration-300`}
-            style={{
-                width: collapsed ? "80px" : "300px",
-                height: "calc(100vh - 98px)",
-                padding: collapsed ? "0px" : "24px",
-                justifyContent: collapsed ? "center" : "flex-start",
-                flexDirection: "column",
-                transition: "width 0.3s ease, padding 0.3s ease",
-                position: isPreview ? "relative" : "fixed", // ✅ only fixed in normal use
-                top: isPreview ? "auto" : "24px",
-                left: isPreview ? "auto" : "34px",
-                zIndex: isPreview ? "auto" : 999,
-            }}
-        >
+    <aside
+      className={`bg-white border-[5px] border-[#3F842E] rounded-[50px] shadow-lg flex flex-col transition-all duration-300`}
+      style={{
+        width: collapsed ? "80px" : "300px",
+        height: "calc(100vh - 98px)",
+        padding: collapsed ? "0px" : "24px",
+        justifyContent: collapsed ? "center" : "flex-start",
+        flexDirection: "column",
+        position: isPreview ? "relative" : "fixed",
+        top: isPreview ? "auto" : "24px",
+        left: isPreview ? "auto" : "34px",
+        zIndex: isPreview ? "auto" : 999,
+      }}
+    >
       {/* Logo */}
-      <div
-        className="flex justify-center transition-all duration-300"
-        style={{
-          marginTop: collapsed ? "40px" : "4px",
-          marginBottom: "40px",
-        }}
-      >
+      <div className="flex justify-center transition-all duration-300"
+        style={{ marginTop: collapsed ? "40px" : "4px", marginBottom: "40px" }}>
         <img
           src={collapsed ? collapsedSideNavLogo : forgotPasswordLogo}
           alt="Logo"
@@ -55,6 +52,7 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
 
       {/* Menu */}
       <div className="flex-1 overflow-hidden">
+
         <Menu
           mode="inline"
           inlineCollapsed={collapsed}
@@ -73,15 +71,18 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
           }))}
           style={{ borderInlineEnd: "none", height: "100%", transition: "all 0.3s ease" }}
           className={`bg-transparent 
-            [&>.ant-menu-item]:!text-[#3F842E] 
-            [&>.ant-menu-item]:!font-bold 
-            [&>.ant-menu-item]:flex 
-            [&>.ant-menu-item]:items-center 
-            [&>.ant-menu-item]:justify-start 
-            [&>.ant-menu-item:hover]:!underline
-            [&>.ant-menu-item-icon]:!min-w-[50px]
-            ${collapsed ? " [&>.ant-menu-item]:!p-[11px] [&>.ant-menu-item-icon]:text-2xl" : ""}`}
+    [&>.ant-menu-item]:!text-[#3F842E] 
+    [&>.ant-menu-item]:!font-bold 
+    [&>.ant-menu-item]:flex 
+    [&>.ant-menu-item]:items-center 
+    [&>.ant-menu-item]:justify-start 
+    [&>.ant-menu-item:hover]:!underline
+    [&>.ant-menu-item-icon]:!min-w-[50px]
+    ${collapsed ? " [&>.ant-menu-item]:!p-[11px] [&>.ant-menu-item-icon]:text-2xl" : ""}`}
+          defaultSelectedKeys={["dashboard"]}
+          onClick={(info) => onSelect?.(info.key)}
         />
+        
       </div>
 
       {/* Toggle Button */}
