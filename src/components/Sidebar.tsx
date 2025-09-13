@@ -82,9 +82,20 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
               }),
             }))}
             style={{ borderInlineEnd: "none", height: "100%", transition: "all 0.3s ease" }}
-            className={`bg-transparent [&>.ant-menu-item]:!text-[#3F842E] [&>.ant-menu-item]:!font-bold`}
+          
+            className={`bg-transparent 
+    [&>.ant-menu-item]:!text-[#3F842E] 
+    [&>.ant-menu-item]:!font-bold 
+    [&>.ant-menu-item]:flex 
+    [&>.ant-menu-item]:items-center 
+    [&>.ant-menu-item]:justify-start 
+    [&>.ant-menu-item:hover]:!underline
+    [&>.ant-menu-item-icon]:!min-w-[50px]
+     [&>.ant-menu-item-selected]:!bg-[rgba(63,132,46,0.7)] 
+  [&>.ant-menu-item-selected]:!text-white
+    ${collapsed ? " [&>.ant-menu-item]:!p-[11px] [&>.ant-menu-item-icon]:text-2xl" : ""}`}
             defaultSelectedKeys={["dashboard"]}
-onClick={(info) => navigate(info.key)}
+            onClick={(info) => navigate(info.key)}
           />
         </div>
       </div>
