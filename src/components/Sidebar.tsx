@@ -82,7 +82,7 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
               }),
             }))}
             style={{ borderInlineEnd: "none", height: "100%", transition: "all 0.3s ease" }}
-          
+
             className={`bg-transparent 
     [&>.ant-menu-item]:!text-[#3F842E] 
     [&>.ant-menu-item]:!font-bold 
@@ -118,15 +118,24 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
 
         {/* User Section */}
         <div className="flex flex-col gap-2 border-t pt-4">
-          <button className="flex items-center gap-3 pl-9 pt-2.5 pb-2.5 rounded-md hover:bg-gray-100 transition-all duration-200 items-center text-sm">
+
+          <button
+            className={`flex items-center gap-3 pt-2.5 pb-2.5 rounded-md hover:bg-gray-100 transition-all duration-200 items-center text-sm 
+    ${collapsed ? "pl-6" : "pl-9"}`}
+          >
             <img src={profileIcon} alt="Profile" className="w-6 h-6" />
-            {!collapsed && <strong className="font-bolt pt-[5px]">John Doe</strong>}
+            {!collapsed && <strong className="font-bold pt-[5px]">John Doe</strong>}
           </button>
 
-          <button className="flex items-center gap-3 pl-9 pt-2.5 pb-2.5 rounded-md hover:bg-gray-100 transition-all duration-200  text-sm">
+          <button
+            className={`flex items-center gap-3 pt-2.5 pb-2.5 rounded-md hover:bg-gray-100 transition-all duration-200 items-center text-sm 
+    ${collapsed ? "pl-6" : "pl-9"}`}
+          >
             <img src={logoutIcon} alt="Logout" className="w-6 h-6" />
             {!collapsed && <span className="pt-[5px]">Logout</span>}
           </button>
+
+
         </div>
       </div>
 
