@@ -50,57 +50,6 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
         zIndex: isPreview ? "auto" : 999,
       }}
     >
-      {/* <div className="flex justify-center transition-all duration-300" style={{ marginTop: collapsed ? "40px" : "4px", marginBottom: "40px" }}>
-        <img src={collapsed ? collapsedSideNavLogo : forgotPasswordLogo} alt="Logo" className={`transition-all duration-300 ${collapsed ? "h-10 w-[5rem]" : "h-16"}`} />
-      </div>
-
-      <div className="flex-1 overflow-hidden">
-        <Menu
-          mode="inline"
-          inlineCollapsed={collapsed}
-          selectedKeys={[location.pathname]}
-          items={items.map((item) => ({
-            ...item,
-            icon: React.cloneElement(item.icon, {
-              style: {
-                fontSize: collapsed ? 30 : 16,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                minWidth: collapsed ? 40 : 24,
-                transition: "all 0.3s ease",
-              },
-            }),
-          }))}
-          style={{ borderInlineEnd: "none", height: "100%", transition: "all 0.3s ease" }}
-          className={`bg-transparent 
-  [&>.ant-menu-item]:!font-bold 
-  [&>.ant-menu-item]:flex 
-  [&>.ant-menu-item]:items-center 
-  [&>.ant-menu-item]:justify-start 
-  [&>.ant-menu-item]:!text-[#3F842E] 
-  [&>.ant-menu-item:hover]:!underline
-  [&>.ant-menu-item-selected]:!bg-[rgba(63,132,46,0.6)] 
-  [&>.ant-menu-item-selected>span]:!text-white
-  [&>.ant-menu-item-icon]:!min-w-[50px]
-  ${collapsed ? " [&>.ant-menu-item]:!p-[11px] [&>.ant-menu-item-icon]:text-2xl" : ""}`}
-
-          onClick={(info) => navigate(info.key)}
-        />
-      </div>
-
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        className="bg-[#3F842E] text-white w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-green-700 transition-all duration-300"
-        style={{
-          position: "absolute",
-          right: collapsed ? "1rem" : "15px",
-          top: collapsed ? "23rem" : "50%",
-          transform: collapsed ? "translateY(0)" : "translateY(-50%)",
-        }}
-      >
-        {collapsed ? <ArrowRightOutlined className="text-sm" /> : <ArrowLeftOutlined className="text-sm" />}
-      </button> */}
 
       {/* Top Section: Logo + Main Menu */}
       <div className="flex flex-col mb-16">
