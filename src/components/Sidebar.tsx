@@ -84,7 +84,7 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
             style={{ borderInlineEnd: "none", height: "100%", transition: "all 0.3s ease" }}
             className={`bg-transparent [&>.ant-menu-item]:!text-[#3F842E] [&>.ant-menu-item]:!font-bold`}
             defaultSelectedKeys={["dashboard"]}
-
+onClick={(info) => navigate(info.key)}
           />
         </div>
       </div>
