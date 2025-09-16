@@ -95,8 +95,10 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
   [&>.ant-menu-item-selected]:!text-white
     ${collapsed ? " [&>.ant-menu-item]:!p-[11px] [&>.ant-menu-item-icon]:text-2xl" : ""}`}
             defaultSelectedKeys={["dashboard"]}
+              selectedKeys={[location.pathname === "/dashboard" ? "/dashboard" : location.pathname]}
             onClick={(info) => navigate(info.key)}
           />
+
         </div>
       </div>
 
