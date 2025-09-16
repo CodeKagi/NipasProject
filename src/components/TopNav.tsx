@@ -8,16 +8,16 @@ export default function TopNav() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 🔹 All menu items
   const allItems = [
     { key: "new-applications", label: "New Applications", path: "/dashboard/new-applications" },
     { key: "applications", label: "Applications", path: "/dashboard/applications" },
     { key: "proxies", label: "Proxies", path: "/dashboard/proxies" },
     { key: "transactions", label: "Transactions", path: "/dashboard/transactions" },
     { key: "specie-info", label: "Specie Info", path: "/dashboard/specie-info" },
+
   ];
 
-  // Hardcode role
+
   const role = "user" as "admin" | "user";
 
   const items = allItems.filter(
@@ -29,11 +29,11 @@ export default function TopNav() {
     <nav className="sticky top-0 w-full bg-[#3F842E] text-white shadow-md z-50 transition-all duration-300">
       <div className="flex items-center justify-between px-4 md:px-8 h-16">
 
-        {/* Desktop Menu */}
+
         <div className="hidden md:flex flex-1 justify-center">
           <Menu
             mode="horizontal"
-            selectedKeys={[location.pathname.split("/")[2]]} // highlight active route
+            selectedKeys={[location.pathname.split("/")[2]]}
             onClick={(e) => {
               const item = items.find((i) => i.key === e.key);
               if (item) navigate(item.path);
@@ -52,7 +52,7 @@ export default function TopNav() {
           />
         </div>
 
-        {/* Desktop Profile */}
+
         <div className="hidden md:flex items-center space-x-2">
           <Dropdown
             menu={{
@@ -72,7 +72,7 @@ export default function TopNav() {
           </Dropdown>
         </div>
 
-        {/* Mobile Hamburger */}
+
         <div className="md:hidden ml-auto">
           <Button
             type="text"
@@ -81,7 +81,6 @@ export default function TopNav() {
           />
         </div>
 
-        {/* Mobile Drawer */}
         <Drawer
           placement="right"
           onClose={() => setDrawerOpen(false)}

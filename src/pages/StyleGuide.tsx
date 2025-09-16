@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Sidebar from "../components/Sidebar";
 import TopNav from "../components/TopNav";
+import Signature from "../components/Signature";
 
 export default function StyleGuide() {
   const [collapsed, setCollapsed] = useState(false);
@@ -150,7 +151,9 @@ export default function StyleGuide() {
                 )}
                 {comp.key === "signature" && (
                   <div className="flex flex-col gap-4">
-                    <div className="border p-4 rounded-md">Draw Signature Placeholder</div>
+                    <div className="border p-4 rounded-md">
+                      <Signature/>
+                    </div>
                     <div className="border p-4 rounded-md">Upload Signature Placeholder</div>
                   </div>
                 )}

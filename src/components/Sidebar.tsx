@@ -51,9 +51,9 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
       }}
     >
 
-      {/* Top Section: Logo + Main Menu */}
+
       <div className="flex flex-col mb-16">
-        {/* Logo */}
+
         <div className="flex justify-center transition-all duration-300"
           style={{ marginTop: collapsed ? "40px" : "4px", marginBottom: "40px" }}>
           <img
@@ -63,7 +63,7 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
           />
         </div>
 
-        {/* Main Menu */}
+
         <div className="flex-1 overflow-hidden">
           <Menu
             mode="inline"
@@ -95,16 +95,15 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
   [&>.ant-menu-item-selected]:!text-white
     ${collapsed ? " [&>.ant-menu-item]:!p-[11px] [&>.ant-menu-item-icon]:text-2xl" : ""}`}
             defaultSelectedKeys={["dashboard"]}
-              selectedKeys={[location.pathname === "/dashboard" ? "/dashboard" : location.pathname]}
+            selectedKeys={[location.pathname === "/dashboard" ? "/dashboard" : location.pathname]}
             onClick={(info) => navigate(info.key)}
           />
 
         </div>
       </div>
 
-      {/* Bottom Section: Quick Menu + User */}
       <div className="flex flex-col gap-4 mt-10">
-        {/* Quick Menu */}
+
         <div className="flex flex-col gap-2">
           {bottomItems.map((item) => (
             <button
@@ -118,7 +117,7 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
           ))}
         </div>
 
-        {/* User Section */}
+
         <div className="flex flex-col gap-2 border-t pt-4">
 
           <button
@@ -141,7 +140,6 @@ export default function Sidebar({ collapsed, setCollapsed, isPreview = false }: 
         </div>
       </div>
 
-      {/* Toggle Button */}
       <button
         onClick={() => setCollapsed(!collapsed)}
         className="bg-[#3F842E] text-white w-8 h-8 rounded-full flex items-center justify-center shadow-md hover:bg-green-700 transition-all duration-300"

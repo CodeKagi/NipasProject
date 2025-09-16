@@ -31,6 +31,7 @@ export default function App() {
         <Route path="specie-info" element={<SpecieInfoPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
+       <Route path="/styleguide" element={<StyleGuide />} />
     </Routes>
 
   )
