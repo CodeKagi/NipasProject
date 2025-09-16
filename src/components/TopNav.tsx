@@ -8,14 +8,22 @@ export default function TopNav() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 🔹 Dynamic items with dashboard paths
-  const items = [
+  // 🔹 All menu items
+  const allItems = [
     { key: "new-applications", label: "New Applications", path: "/dashboard/new-applications" },
     { key: "applications", label: "Applications", path: "/dashboard/applications" },
     { key: "proxies", label: "Proxies", path: "/dashboard/proxies" },
     { key: "transactions", label: "Transactions", path: "/dashboard/transactions" },
     { key: "specie-info", label: "Specie Info", path: "/dashboard/specie-info" },
   ];
+
+  // Hardcode role
+  const role = "user" as "admin" | "user";
+
+  const items = allItems.filter(
+    (item) => !(role === "admin" && item.key === "new-applications")
+  );
+
 
   return (
     <nav className="sticky top-0 w-full bg-[#3F842E] text-white shadow-md z-50 transition-all duration-300">
@@ -25,7 +33,7 @@ export default function TopNav() {
         <div className="hidden md:flex flex-1 justify-center">
           <Menu
             mode="horizontal"
-            selectedKeys={[location.pathname.split("/")[2] || ""]} // highlight based on 2nd segment
+            selectedKeys={[location.pathname.split("/")[2]]} // highlight active route
             onClick={(e) => {
               const item = items.find((i) => i.key === e.key);
               if (item) navigate(item.path);
@@ -45,7 +53,7 @@ export default function TopNav() {
         </div>
 
         {/* Desktop Profile */}
-        <div className="hidden md:flex items-center space-x-2 transition-all duration-300">
+        <div className="hidden md:flex items-center space-x-2">
           <Dropdown
             menu={{
               items: [
@@ -57,7 +65,7 @@ export default function TopNav() {
             placement="bottomLeft"
             trigger={["click"]}
           >
-            <div className="flex items-center space-x-2 cursor-pointer transition-all duration-300">
+            <div className="flex items-center space-x-2 cursor-pointer">
               <span className="text-sm font-semibold text-white">Hello, Kagiso</span>
               <Avatar size="large" icon={<UserOutlined />} />
             </div>
@@ -68,7 +76,7 @@ export default function TopNav() {
         <div className="md:hidden ml-auto">
           <Button
             type="text"
-            icon={<MenuOutlined className="text-white text-2xl transition-all duration-300" />}
+            icon={<MenuOutlined className="text-white text-2xl" />}
             onClick={() => setDrawerOpen(true)}
           />
         </div>
@@ -78,11 +86,9 @@ export default function TopNav() {
           placement="right"
           onClose={() => setDrawerOpen(false)}
           open={drawerOpen}
-          styles={{
-            body: { padding: 0, backgroundColor: "#3F842E", transition: "all 0.3s ease" },
-          }}
+          bodyStyle={{ padding: 0, backgroundColor: "#3F842E" }}
         >
-          <div className="flex flex-col p-4 space-y-4 transition-all duration-300">
+          <div className="flex flex-col p-4 space-y-4">
             {items.map((item) => (
               <button
                 key={item.key}
@@ -90,9 +96,7 @@ export default function TopNav() {
                   navigate(item.path);
                   setDrawerOpen(false);
                 }}
-                className={`text-left font-bold text-xs transition-all duration-300 ${
-                  location.pathname === item.path ? "text-gray-300" : "text-white"
-                }`}
+                className="text-white font-bold text-xs text-left"
               >
                 {item.label}
               </button>
@@ -111,7 +115,7 @@ export default function TopNav() {
               placement="bottomLeft"
               trigger={["click"]}
             >
-              <div className="flex items-center space-x-2 cursor-pointer transition-all duration-300">
+              <div className="flex items-center space-x-2 cursor-pointer">
                 <span className="text-sm font-semibold text-white">Hello, Kagiso</span>
                 <Avatar size="small" icon={<UserOutlined />} />
               </div>
