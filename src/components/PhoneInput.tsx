@@ -21,7 +21,6 @@ export default function PhoneInput() {
         Telephone (Home)
       </label>
       <div className="flex items-center border border-gray-300 rounded-md overflow-hidden">
-        {/* Country Dropdown (Styled as prefix inside input) */}
         <Select
           value={selectedCode}
           onChange={(val) => setSelectedCode(val)}
@@ -37,7 +36,6 @@ export default function PhoneInput() {
           ))}
         </Select>
 
-        {/* Phone Number Input */}
         <input
           type="tel"
           placeholder="Enter phone number"
