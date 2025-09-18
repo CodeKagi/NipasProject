@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import Sidebar from "../components/Sidebar";
 import TopNav from "../components/TopNav";
 import Signature from "../components/Signature";
+import CustomAccordion from "../components/CustomAccordion";
+import PhoneInput from "../components/PhoneInput";
 
 export default function StyleGuide() {
   const [collapsed, setCollapsed] = useState(false);
@@ -152,7 +154,7 @@ export default function StyleGuide() {
                 {comp.key === "signature" && (
                   <div className="flex flex-col gap-4">
                     <div className="border p-4 rounded-md">
-                      <Signature/>
+                      <Signature />
                     </div>
                     <div className="border p-4 rounded-md">Upload Signature Placeholder</div>
                   </div>
@@ -169,6 +171,7 @@ export default function StyleGuide() {
                     <input type="text" placeholder="Text Input" className="border px-3 py-2 rounded-md" />
                     <input type="email" placeholder="Email Input" className="border px-3 py-2 rounded-md" />
                     <input type="password" placeholder="Password Input" className="border px-3 py-2 rounded-md" />
+                    <PhoneInput />
                   </div>
                 )}
                 {comp.key === "dropdowns" && (
@@ -181,15 +184,13 @@ export default function StyleGuide() {
                 )}
                 {comp.key === "accordions" && (
                   <div className="flex flex-col gap-2">
-                    <div className="border-b py-2">
-                      <button className="w-full text-left font-semibold">Accordion 1</button>
-                    </div>
-                    <div className="border-b py-2">
-                      <button className="w-full text-left font-semibold">Accordion 2</button>
-                    </div>
-                    <div className="py-2">
-                      <button className="w-full text-left font-semibold">Accordion 3</button>
-                    </div>
+
+                    <CustomAccordion
+                      items={[
+                        { key: "1", title: "First Section", content: "Hello from section 1" },
+                        { key: "2", title: "Second Section", content: "Details for section 2" },
+                      ]}
+                    />
                   </div>
                 )}
                 {comp.key === "badges" && (
