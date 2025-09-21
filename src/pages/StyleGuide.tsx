@@ -4,6 +4,7 @@ import TopNav from "../components/TopNav";
 import Signature from "../components/Signature";
 import CustomAccordion from "../components/CustomAccordion";
 import PhoneInput from "../components/PhoneInput";
+import StatCard from "../components/StatCard";
 
 export default function StyleGuide() {
   const [collapsed, setCollapsed] = useState(false);
@@ -201,20 +202,29 @@ export default function StyleGuide() {
                   </div>
                 )}
                 {comp.key === "cards" && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="border rounded-md p-4 shadow-sm">
-                      <h3 className="font-semibold mb-2">Card 1</h3>
-                      <p className="text-gray-600">Some dummy content for card 1.</p>
+                  <div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="border rounded-md p-4 shadow-sm">
+                        <h3 className="font-semibold mb-2">Card 1</h3>
+                        <p className="text-gray-600">Some dummy content for card 1.</p>
+                      </div>
+                      <div className="border rounded-md p-4 shadow-sm">
+                        <h3 className="font-semibold mb-2">Card 2</h3>
+                        <p className="text-gray-600">Some dummy content for card 2.</p>
+                      </div>
+                      <div className="border rounded-md p-4 shadow-sm">
+                        <h3 className="font-semibold mb-2">Card 3</h3>
+                        <p className="text-gray-600">Some dummy content for card 3.</p>
+                      </div>
                     </div>
-                    <div className="border rounded-md p-4 shadow-sm">
-                      <h3 className="font-semibold mb-2">Card 2</h3>
-                      <p className="text-gray-600">Some dummy content for card 2.</p>
-                    </div>
-                    <div className="border rounded-md p-4 shadow-sm">
-                      <h3 className="font-semibold mb-2">Card 3</h3>
-                      <p className="text-gray-600">Some dummy content for card 3.</p>
+                    <div className="flex gap-4">
+                      <StatCard value={5} label="Active Applications" bgColor="bg-green-600" />
+                      <StatCard value={2} label="Pending Review" bgColor="bg-blue-800" />
+                      <StatCard value={8} label="Approved This Year" bgColor="bg-red-700" />
+                      <StatCard value={15} label="Days Avg Processing" bgColor="bg-gray-600" />
                     </div>
                   </div>
+
                 )}
               </div>
             </section>
