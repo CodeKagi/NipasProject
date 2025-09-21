@@ -1,5 +1,3 @@
-// src/models/Application.ts
-
 export type ApplicationStatus = "In Review" | "Pending Payment" | "Approved" | "Rejected";
 
 export interface Application {

@@ -3,29 +3,39 @@ import StatCard from "../components/StatCard";
 import QuickActions from "../components/QuickActions";
 import RecentApplications from "../components/RecentApplications";
 import type { Application } from "../Models/Application";
+import RecentUpdates from "../components/RecentUpdates";
+import type { UpdateItem } from "../Models/UpdateItem";
+import SupportCard from "../components/SupportCard";
+import { Clock, Mail, Phone } from "lucide-react";
 
 
 export default function DashboardPage() {
-const applications: Application[] = [
-  {
-    id: "BL-2024-000892",
-    title: "Angle - Permit",
-    type: "Permit",
-    submitted: "Sept 8, 2025",
-    completion: "Sept 20, 2025",
-    fee: "R2450.00",
-    status: "In Review",
-  },
-  {
-    id: "BL-2024-000153",
-    title: "Hunting (Bird Only) - License",
-    type: "License",
-    submitted: "Sept 8, 2025",
-    completion: "Sept 15, 2025",
-    fee: "R1450.00",
-    status: "Pending Payment",
-  },
-];
+  const applications: Application[] = [
+    {
+      id: "BL-2024-000892",
+      title: "Angle - Permit",
+      type: "Permit",
+      submitted: "Sept 8, 2025",
+      completion: "Sept 20, 2025",
+      fee: "R2450.00",
+      status: "In Review",
+    },
+    {
+      id: "BL-2024-000153",
+      title: "Hunting (Bird Only) - License",
+      type: "License",
+      submitted: "Sept 8, 2025",
+      completion: "Sept 15, 2025",
+      fee: "R1450.00",
+      status: "Pending Payment",
+    },
+  ];
+
+  const updates: UpdateItem[] = [
+    { id: '1', title: 'Application Approved', description: 'EP-2024-156 approved', timestamp: '2h ago', type: 'success' },
+    { id: '2', title: 'Payment Required', description: 'R1,200 due', timestamp: '1d ago', type: 'warning' },
+    { id: '3', title: 'Document Request', description: 'Additional docs required', timestamp: '2d ago', type: 'info' },
+  ];
 
   return (
     <div>
@@ -42,8 +52,21 @@ const applications: Application[] = [
       </div>
 
       <QuickActions />
-      
-       <RecentApplications applications={applications} />
+
+
+      <RecentApplications applications={applications} />
+
+      <RecentUpdates updates={updates} />
+
+      <SupportCard
+        description="Contact our support team for assistance with your applications."
+        contacts={[
+          { icon: <Phone className="w-4 h-4 text-gray-600" />, label: "Phone", value: "011 123 4567" },
+          { icon: <Mail className="w-4 h-4 text-gray-600" />, label: "Email", value: "support@dedect.com" },
+          { icon: <Clock className="w-4 h-4 text-gray-600" />, label: "Hours", value: "6AM - 5PM (Mon-Fri)" },
+        ]}
+      />
+
     </div>
   );
 }

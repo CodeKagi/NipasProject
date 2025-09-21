@@ -15,7 +15,7 @@ interface RecentApplicationsProps {
 
 const RecentApplications: React.FC<RecentApplicationsProps> = ({ applications }) => {
     return (
-        <div className="mt-6">
+        <div className="mt-6  mb-10">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Applications</h2>
             <div className="space-y-4">
                 {applications.map((app) => (
