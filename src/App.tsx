@@ -1,4 +1,4 @@
-import { Routes, Route, Router, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import StyleGuide from './pages/StyleGuide'
@@ -12,27 +12,52 @@ import ProxiesPage from './pages/ProxiesPage'
 import TransactionsPage from './pages/TransactionsPage'
 import SpecieInfoPage from './pages/SpecieInfoPage'
 
+// ✅ NEW: TaskListPage import
+import TaskListPage from './pages/TaskListPage'
+import Pending from './pages/Pending'
+import Completed from './pages/Completed'
+import Deferred from './pages/Deferred'
+import PendingInformation from './pages/PendingInformation'
+
 export default function App() {
   return (
-
     <Routes>
+      {/* Login */}
       <Route path="/" element={<Login />} />
+
+      {/* Dashboard layout */}
       <Route path="/dashboard" element={<Dashboard />}>
-        <Route index element={<DashboardPage />} /> {/* default content inside Dashboard */}
+
+        {/* Dashboard Main */}
+        <Route index element={<DashboardPage />} />
+
+        {/* Existing children */}
         <Route path="user-profile" element={<UserProfilePage />} />
         <Route path="biodiversity-projects" element={<BiodiversityProjectsPage />} />
         <Route path="stakeholder" element={<StakeholderPage />} />
-
-        {/* 🔹 remove leading "/" so they're nested inside dashboard */}
         <Route path="new-applications" element={<NewApplicationsPage />} />
         <Route path="applications" element={<ApplicationsPage />} />
         <Route path="proxies" element={<ProxiesPage />} />
         <Route path="transactions" element={<TransactionsPage />} />
         <Route path="specie-info" element={<SpecieInfoPage />} />
-      </Route>
-      <Route path="*" element={<Navigate to="/" replace />} />
-       <Route path="/styleguide" element={<StyleGuide />} />
-    </Routes>
+        <Route path="pending" element={<Pending />} />
+        <Route path="completed" element={<Completed />} />
+        <Route path="deferred" element={<Deferred />} />
+        <Route path="pending-info" element={<PendingInformation />} />
 
+        {/* ✅ NEW: Central Officer Task Routes */}
+        <Route path="tasks/pending" element={<TaskListPage />} />
+        <Route path="tasks/completed" element={<TaskListPage />} />
+        <Route path="tasks/deferred" element={<TaskListPage />} />
+        <Route path="tasks/pending-info" element={<TaskListPage />} />
+
+      </Route>
+
+      {/* Styleguide */}
+      <Route path="/styleguide" element={<StyleGuide />} />
+
+      {/* Fallback */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   )
 }
