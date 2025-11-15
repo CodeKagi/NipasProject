@@ -1,11 +1,11 @@
-// src/pages/TaskListPage.tsx
+
 import React from "react";
 import { useParams } from "react-router-dom";
 
 export default function TaskListPage() {
-  const { slug } = useParams(); // slug will be 'pending' or 'completed' etc.
+  const { slug } = useParams(); 
 
-  // map path slug to display name (simple)
+
   const map: Record<string, string> = {
     pending: "Pending",
     completed: "Completed",
@@ -15,7 +15,7 @@ export default function TaskListPage() {
 
   const display = map[slug ?? "pending"] ?? "Tasks";
 
-  // mock items to display
+
   const items = [
     { id: "4518", applicant: "Thabo Jacob", type: "Hunt DCA - Lion", status: display },
     { id: "9628", applicant: "Marie Peterson", type: "Hunt Dangerous Game", status: display },
