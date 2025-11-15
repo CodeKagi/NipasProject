@@ -17,7 +17,7 @@ export type MenuItemShape = {
   key: string;
   label: string;
   icon?: string | React.ReactNode;
-  allowedRoles?: string[];
+  allowedRoles?: string[]; 
 };
 
 // --- Props ------------------------------------------------------------------
@@ -29,6 +29,29 @@ interface SidebarProps {
   menuItems?: MenuItemShape[];
 }
 
+function getNormalizedRoles(raw: any): string[] {
+  if (!raw) return ["ADMIN"];
+
+  if (Array.isArray(raw.roles) && raw.roles.length > 0) {
+    return raw.roles.map((r: any) => String(r).toUpperCase());
+  }
+
+  if (typeof raw.role === "string" && raw.role.length > 0) {
+    return [raw.role.toUpperCase()];
+  }
+
+  if (typeof raw.roleName === "string" && raw.roleName.length > 0) {
+    return [raw.roleName.toUpperCase()];
+  }
+  if (typeof raw.userType === "string" && raw.userType.length > 0) {
+    return [raw.userType.toUpperCase()];
+  }
+
+  // Fallback
+  return ["ADMIN"];
+}
+
+// --- Default menus (unchanged) ----------------------------------------------
 const DEFAULT_MENU: MenuItemShape[] = [
   { key: "/dashboard", icon: dashBoardIcon, label: "Dashboard", allowedRoles: ["ADMIN", "PROCESSOR"] },
   { key: "/dashboard/user-profile", icon: userProfileIcon, label: "User Profile", allowedRoles: ["ADMIN", "PROCESSOR"] },
@@ -46,7 +69,6 @@ const CENTRAL_OFFICER_MENU: MenuItemShape[] = [
 function renderIcon(icon?: string | React.ReactNode, collapsed = false) {
   if (!icon) return null;
   if (typeof icon === "string") {
-    // If backend sends simple token names like "pending" or "completed", we  map to emoji or ant icons here.
     const name = icon.toLowerCase();
     if (name === "pending") return <span className="text-xl">⏳</span>;
     if (name === "completed") return <span className="text-xl">✔️</span>;
@@ -64,26 +86,38 @@ export default function Sidebar({
   collapsed,
   setCollapsed,
   isPreview = false,
-  userRoles = [],
+  userRoles,
   menuItems,
 }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const derivedUserRoles: string[] = React.useMemo(() => {
+    if (userRoles && userRoles.length > 0) {
+      return userRoles.map((r) => String(r).toUpperCase());
+    }
+    const raw = (window as any).__USER__;
+    return getNormalizedRoles(raw);
+  }, [userRoles]);
 
   const mergedMenu: MenuItemShape[] = React.useMemo(() => {
     if (menuItems && menuItems.length > 0) return menuItems;
     return [...DEFAULT_MENU, ...CENTRAL_OFFICER_MENU];
   }, [menuItems]);
 
-  const allowedMenu = mergedMenu.filter((it) => {
-    if (!it.allowedRoles || it.allowedRoles.length === 0) return true;
-    return it.allowedRoles.some((r) => userRoles.includes(r));
-  });
+  const allowedMenu = React.useMemo(() => {
+    return mergedMenu.filter((it) => {
+      if (!it.allowedRoles || it.allowedRoles.length === 0) return true;
+      return it.allowedRoles.some((r) => derivedUserRoles.includes(String(r).toUpperCase()));
+    });
+  }, [mergedMenu, derivedUserRoles]);
 
   const antItems = allowedMenu.map((item) => ({
     key: item.key,
     icon: React.cloneElement(
-      React.isValidElement(renderIcon(item.icon, collapsed)) ? renderIcon(item.icon, collapsed) as React.ReactElement : <span>{renderIcon(item.icon, collapsed)}</span>,
+      React.isValidElement(renderIcon(item.icon, collapsed))
+        ? (renderIcon(item.icon, collapsed) as React.ReactElement)
+        : <span>{renderIcon(item.icon, collapsed)}</span>,
       {
         style: {
           fontSize: collapsed ? 30 : 16,

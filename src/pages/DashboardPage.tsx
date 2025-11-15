@@ -7,27 +7,35 @@ import RecentUpdates from "../components/RecentUpdates";
 import type { UpdateItem } from "../Models/UpdateItem";
 import SupportCard from "../components/SupportCard";
 import { Clock, Mail, Phone } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import MyTasks from "./MyTasks";
 
+type UserRole = "user" | "admin" | "central-officer";
+
+function getRoleFromRawUser(raw: any): UserRole {
+  if (!raw) return "central-officer";
+
+  if (Array.isArray(raw.roles)) {
+    if (raw.roles.includes("CENTRAL_OFFICER")) return "central-officer";
+    if (raw.roles.includes("ADMIN")) return "admin";
+    if (raw.roles.includes("USER")) return "user";
+  }
+
+  if (typeof raw.role === "string") {
+    if (raw.role === "CENTRAL_OFFICER") return "central-officer";
+    if (raw.role === "ADMIN") return "admin";
+    if (raw.role === "USER") return "user";
+  }
+
+  return "user";
+}
 
 export default function DashboardPage() {
 
-  const currentUser = React.useMemo(() => {
+  const rawUser = (window as any).__USER__;
 
-    const injected = (window as any).__USER__;
-    if (injected && Array.isArray(injected.roles)) {
-      return injected;
-    }
+  const role: UserRole = React.useMemo(() => getRoleFromRawUser(rawUser), [rawUser]);
 
-    return {
-      name: "John Doe",
-      roles: ["CENTRAL_OFFICER"],
-    };
-  }, []);
-
-  const isCentralOfficer = (currentUser.roles ?? []).includes("CENTRAL_OFFICER");
-
+  const isCentralOfficer = role === "central-officer";
 
   const applications: Application[] = [
     {
@@ -56,20 +64,15 @@ export default function DashboardPage() {
     { id: "3", title: "Document Request", description: "Additional docs required", timestamp: "2d ago", type: "info" },
   ];
 
- 
+
   function OfficerTasksPanel() {
-
-  return (
-    <div>
-      <MyTasks />
+    return (
+      <div className="space-y-6">
+        <MyTasks />
       </div>
-  );
-}
-  
+    );
+  }
 
-  // --------------------------
-  // Normal dashboard layout (your original)
-  // --------------------------
   function NormalDashboard() {
     return (
       <div>
