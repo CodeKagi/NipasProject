@@ -14,10 +14,10 @@ import profileIcon from "../assets/femaleUserProfile.svg";
 
 // --- Types ------------------------------------------------------------------
 export type MenuItemShape = {
-  key: string;                 // route or unique key (e.g. "/dashboard", "pending")
-  label: string;               // text to display
-  icon?: string | React.ReactNode; // can be image path (string) or a ReactNode
-  allowedRoles?: string[];     // roles that can see this menu item (if omitted => visible to all)
+  key: string;
+  label: string;
+  icon?: string | React.ReactNode;
+  allowedRoles?: string[];
 };
 
 // --- Props ------------------------------------------------------------------
@@ -25,20 +25,17 @@ interface SidebarProps {
   collapsed: boolean;
   setCollapsed: (value: boolean) => void;
   isPreview?: boolean;
-  // optional: roles for the current user (e.g. ["CENTRAL_OFFICER","PROCESSOR"])
   userRoles?: string[];
-  // optional: menu items can be injected by backend (if not provided we fall back to the local items)
   menuItems?: MenuItemShape[];
 }
 
 const DEFAULT_MENU: MenuItemShape[] = [
-  { key: "/dashboard", icon: dashBoardIcon, label: "Dashboard", allowedRoles: ["ADMIN","PROCESSOR"] },
-  { key: "/dashboard/user-profile", icon: userProfileIcon, label: "User Profile", allowedRoles: ["ADMIN","PROCESSOR"] },
-  { key: "/dashboard/biodiversity-projects", icon: biodiversityProjectsIcon, label: "Biodiversity Projects", allowedRoles: ["ADMIN","PROCESSOR"] },
+  { key: "/dashboard", icon: dashBoardIcon, label: "Dashboard", allowedRoles: ["ADMIN", "PROCESSOR"] },
+  { key: "/dashboard/user-profile", icon: userProfileIcon, label: "User Profile", allowedRoles: ["ADMIN", "PROCESSOR"] },
+  { key: "/dashboard/biodiversity-projects", icon: biodiversityProjectsIcon, label: "Biodiversity Projects", allowedRoles: ["ADMIN", "PROCESSOR"] },
   { key: "/dashboard/stakeholder", icon: stakeholderIcon, label: "Stakeholder", allowedRoles: ["ADMIN"] },
 ];
 
-// Example of additional role-specific right-side menu items (this can come from the backend)
 const CENTRAL_OFFICER_MENU: MenuItemShape[] = [
   { key: "/dashboard/pending", icon: "pending", label: "Pending", allowedRoles: ["CENTRAL_OFFICER"] },
   { key: "/dashboard/completed", icon: "completed", label: "Completed", allowedRoles: ["CENTRAL_OFFICER"] },
@@ -46,24 +43,19 @@ const CENTRAL_OFFICER_MENU: MenuItemShape[] = [
   { key: "/dashboard/pending-info", icon: "pending-info", label: "Pending Information", allowedRoles: ["CENTRAL_OFFICER"] },
 ];
 
-// --- Helper: render icon (string path or ReactNode) ---------------------------
 function renderIcon(icon?: string | React.ReactNode, collapsed = false) {
-  // If icon is a string that looks like a path, render an <img/>
   if (!icon) return null;
   if (typeof icon === "string") {
-    // small convenience for some named icons (you used images in your design)
-    // If backend sends simple token names like "pending" or "completed", we can map to emoji or ant icons here.
+    // If backend sends simple token names like "pending" or "completed", we  map to emoji or ant icons here.
     const name = icon.toLowerCase();
     if (name === "pending") return <span className="text-xl">⏳</span>;
     if (name === "completed") return <span className="text-xl">✔️</span>;
     if (name === "deferred") return <span className="text-xl">📌</span>;
     if (name === "pending-info") return <span className="text-xl">🛈</span>;
 
-    // otherwise treat as image path
     return <img src={icon} alt="icon" className="w-6 h-6" />;
   }
 
-  // Already a React node (e.g. <SomeIcon/>)
   return icon;
 }
 
@@ -72,31 +64,25 @@ export default function Sidebar({
   collapsed,
   setCollapsed,
   isPreview = false,
-  userRoles = [], // optional: can be passed from parent / auth provider
+  userRoles = [],
   menuItems,
 }: SidebarProps) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Merge menu items: priority to injected menuItems, else DEFAULT_MENU + role extras
   const mergedMenu: MenuItemShape[] = React.useMemo(() => {
     if (menuItems && menuItems.length > 0) return menuItems;
-    // If no injected menu, combine default + central officer example (you can remove CENTRAL_OFFICER_MENU if not needed)
     return [...DEFAULT_MENU, ...CENTRAL_OFFICER_MENU];
   }, [menuItems]);
 
-  // Filter by roles (allowedRoles missing => public)
   const allowedMenu = mergedMenu.filter((it) => {
     if (!it.allowedRoles || it.allowedRoles.length === 0) return true;
-    // if userRoles is empty, no role means treat as not allowed (you can change to public by default)
     return it.allowedRoles.some((r) => userRoles.includes(r));
   });
 
-  // Build Ant Menu items using the icon rendering helper
   const antItems = allowedMenu.map((item) => ({
     key: item.key,
     icon: React.cloneElement(
-      // cloneElement expects a React node, so we ensure renderIcon returns one
       React.isValidElement(renderIcon(item.icon, collapsed)) ? renderIcon(item.icon, collapsed) as React.ReactElement : <span>{renderIcon(item.icon, collapsed)}</span>,
       {
         style: {
@@ -112,7 +98,6 @@ export default function Sidebar({
     label: item.label,
   }));
 
-  // bottom items remain the same; can also accept injection if needed
   const bottomItems = [
     { key: "support", label: "Support" },
     { key: "notifications", label: "Notifications" },
@@ -166,7 +151,6 @@ export default function Sidebar({
             defaultSelectedKeys={["/dashboard"]}
             selectedKeys={[location.pathname === "/dashboard" ? "/dashboard" : location.pathname]}
             onClick={(info) => {
-              // If the item key looks like an external anchor, you can handle it here.
               navigate(info.key as string);
             }}
           />
