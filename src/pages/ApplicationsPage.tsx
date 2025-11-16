@@ -102,7 +102,7 @@ const MOCK_DATA: AppRow[] = [
     responsibleOfficial: "Jabulani Dlomo",
     info: "Step 8d 9h 45m Overdue · Application Due In 3d 12h 12m",
   },
-    {
+  {
     id: "4519",
     applicationId: "4519",
     applicant: "Thabo Jacob Pelo",
@@ -135,7 +135,7 @@ const MOCK_DATA: AppRow[] = [
     responsibleOfficial: "Jabulani Dlomo",
     info: "Step 8d 9h 45m Overdue · Application Due In 3d 12h 12m",
   },
-  
+
 ];
 
 function fetchApplicationsMock(): Promise<AppRow[]> {
@@ -273,8 +273,14 @@ export function CentralOfficerApplicationsView() {
       if (size) setPageSize(size);
     },
   };
+  // const onRowClick = (record: AppRow) => {
+  //   navigate(`/dashboard/application/${record.applicationId}`);
+  // };
+
   const onRowClick = (record: AppRow) => {
-    navigate(`/dashboard/application/${record.applicationId}`);
+    navigate(`/dashboard/application/${record.applicationId}`, {
+      state: { applicationType: record.applicationType, title: record.applicationType },
+    });
   };
 
   return (

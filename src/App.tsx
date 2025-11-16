@@ -19,6 +19,7 @@ import Completed from './pages/Completed'
 import Deferred from './pages/Deferred'
 import PendingInformation from './pages/PendingInformation'
 import MyTasks from './pages/MyTasks'
+import ApplicationDetailPage from './pages/ApplicationDetailPage'
 
 export default function App() {
   return (
@@ -46,6 +47,8 @@ export default function App() {
         <Route path="deferred" element={<Deferred />} />
         <Route path="pending-info" element={<PendingInformation />} />
          <Route path="my-tasks" element={<MyTasks />} />
+         <Route path="application/:id" element={<ApplicationDetailPage />} />
+
 
         {/* NEW: Central Officer Task Routes */}
         {/* <Route path="tasks/pending" element={<TaskListPage />} />
