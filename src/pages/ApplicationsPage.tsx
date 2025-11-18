@@ -3,6 +3,15 @@ import type { ColumnsType } from "antd/es/table";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+import { AgGridReact } from "ag-grid-react";
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import type { ColDef, RowClickedEvent } from "ag-grid-community";
+
+import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+    
+    ModuleRegistry.registerModules([ AllCommunityModule ])
+
 type UserRole = "user" | "admin" | "central-officer";
 
 function getRoleFromRawUser(raw: any): UserRole {
@@ -177,7 +186,6 @@ export function CentralOfficerApplicationsView() {
   const [loading, setLoading] = React.useState(false);
   const [search, setSearch] = React.useState("");
   const [pageSize, setPageSize] = React.useState<number>(10);
-  const [currentPage, setCurrentPage] = React.useState<number>(1);
 
   React.useEffect(() => {
     let cancelled = false;
@@ -196,104 +204,55 @@ export function CentralOfficerApplicationsView() {
     };
   }, []);
 
-  // Filtered data based on search
+  // ---------- AG GRID COLUMN DEFINITIONS (typed) ----------
+  const columnDefs: ColDef<AppRow>[] = [
+    {
+      headerName: "Application ID",
+      field: "applicationId" as keyof AppRow, // cast to keyof AppRow
+      width: 140,
+      cellStyle: { fontFamily: "monospace", fontSize: "13px" },
+    },
+    { headerName: "Applicant", field: "applicant" as keyof AppRow, flex: 1 },
+    { headerName: "Permit Holder", field: "permitHolder" as keyof AppRow, flex: 1 },
+    { headerName: "Application Type", field: "applicationType" as keyof AppRow, flex: 1.2 },
+    { headerName: "Application Status", field: "applicationStatus" as keyof AppRow, width: 160 },
+    { headerName: "Processing Division", field: "processingDivision" as keyof AppRow, flex: 1 },
+    { headerName: "Responsible Official", field: "responsibleOfficial" as keyof AppRow, flex: 1 },
+    {
+      headerName: "Info",
+      field: "info" as keyof AppRow,
+      flex: 1.5,
+      cellStyle: { fontSize: "12px", color: "#555" },
+    },
+  ];
+
+  // ---------- FILTER BASED ON SEARCH ----------
   const filtered = React.useMemo(() => {
     const q = search.trim().toLowerCase();
     if (!q) return data;
     return data.filter((r) =>
-      [r.applicationId, r.applicant, r.applicationType, r.permitHolder, r.applicationStatus]
-        .join(" ")
-        .toLowerCase()
-        .includes(q)
+      Object.values(r).join(" ").toLowerCase().includes(q)
     );
-  }, [data, search]);
+  }, [search, data]);
 
-  // Table columns (pixel-close to design)
-  const columns: ColumnsType<AppRow> = [
-    {
-      title: "Application ID",
-      dataIndex: "applicationId",
-      key: "applicationId",
-      width: 120,
-      render: (text) => <span className="font-mono text-sm">{text}</span>,
-    },
-    {
-      title: "Applicant",
-      dataIndex: "applicant",
-      key: "applicant",
-      render: (text) => <div className="whitespace-pre-wrap text-sm">{text}</div>,
-    },
-    {
-      title: "Permit Holder",
-      dataIndex: "permitHolder",
-      key: "permitHolder",
-      render: (text) => <div className="text-sm">{text}</div>,
-    },
-    {
-      title: "Application Type",
-      dataIndex: "applicationType",
-      key: "applicationType",
-      render: (text) => <div className="text-sm">{text}</div>,
-    },
-    {
-      title: "Application Status",
-      dataIndex: "applicationStatus",
-      key: "applicationStatus",
-      width: 160,
-      render: (text) => <div className="text-sm">{text}</div>,
-    },
-    {
-      title: "Processing Division",
-      dataIndex: "processingDivision",
-      key: "processingDivision",
-      render: (text) => <div className="text-sm">{text}</div>,
-    },
-    {
-      title: "Responsible Official",
-      dataIndex: "responsibleOfficial",
-      key: "responsibleOfficial",
-      render: (text) => <div className="text-sm">{text}</div>,
-    },
-    {
-      title: "Info",
-      dataIndex: "info",
-      key: "info",
-      render: (text) => <div className="text-xs text-gray-600">{text}</div>,
-    },
-  ];
-
-  // Pagination config for Ant Table
-  const pagination = {
-    current: currentPage,
-    pageSize,
-    total: filtered.length,
-    showSizeChanger: false,
-    onChange: (page: number, size?: number) => {
-      setCurrentPage(page);
-      if (size) setPageSize(size);
-    },
-  };
-  // const onRowClick = (record: AppRow) => {
-  //   navigate(`/dashboard/application/${record.applicationId}`);
-  // };
-
-  const onRowClick = (record: AppRow) => {
-    navigate(`/dashboard/application/${record.applicationId}`, {
-      state: { applicationType: record.applicationType, title: record.applicationType },
+  // ---------- ROW CLICK ----------
+  const onRowClicked = React.useCallback((event: RowClickedEvent<AppRow>) => {
+    const row = event.data;
+    if (!row) return;
+    navigate(`/dashboard/application/${row.applicationId}`, {
+      state: { applicationType: row.applicationType, title: row.applicationType },
     });
-  };
+  }, [navigate]);
 
   return (
     <div className="space-y-4">
+      {/* Search + page size */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex-1">
           <Input
             placeholder="Search by ID, applicant, or type..."
             value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setCurrentPage(1);
-            }}
+            onChange={(e) => setSearch(e.target.value)}
             allowClear
             className="rounded-md"
           />
@@ -302,64 +261,28 @@ export function CentralOfficerApplicationsView() {
         <div className="flex items-center gap-3">
           <Select
             value={pageSize}
-            onChange={(val) => {
-              setPageSize(Number(val));
-              setCurrentPage(1);
-            }}
+            onChange={(val) => setPageSize(Number(val))}
             options={[5, 10, 25, 50].map((n) => ({ label: `${n} entries`, value: n }))}
             style={{ width: 120 }}
-            size="middle"
           />
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-[0_8px_20px_rgba(0,0,0,0.06)] border border-gray-200 p-3">
-        <Table
-          columns={columns}
-          dataSource={filtered}
-          loading={loading}
-          pagination={pagination}
-          rowKey="applicationId"
-          onRow={(record) => ({
-            onClick: () => onRowClick(record),
-            onKeyDown: (e: React.KeyboardEvent) => {
-              if (e.key === "Enter") onRowClick(record);
-            },
-            tabIndex: 0,
-            style: { cursor: "pointer" } as any,
-          })}
-          size="middle"
-          bordered={false}
-          rowClassName={() => "hover:bg-gray-50"}
+      {/* AG Grid container */}
+      <div className="ag-theme-quartz h-[600px] w-full rounded-lg border border-gray-200 shadow">
+        <AgGridReact<AppRow>
+          rowData={filtered}
+          columnDefs={columnDefs}
+          pagination={true}
+          paginationPageSize={pageSize}
+          onRowClicked={onRowClicked}
+          rowSelection="single"
+          defaultColDef={{ resizable: true, sortable: false, filter: false }}
+          overlayLoadingTemplate={'<span class="loading">Loading...</span>'}
         />
-        <div className="mt-2 text-sm text-gray-600">Showing {filtered.length} applications</div>
-
-        {/* simple pagination indicator (pixel-ish): green circle with page number on bottom-right */}
-        {/* <div className="flex justify-end mt-4">
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-              className="px-2 py-1 rounded border"
-            >
-              &lt;
-            </button>
-            <div className="w-8 h-8 rounded-full bg-[#3F842E] text-white flex items-center justify-center font-bold">
-              {currentPage}
-            </div>
-            <button
-              onClick={() =>
-                setCurrentPage((p) => {
-                  const max = Math.max(1, Math.ceil(filtered.length / pageSize));
-                  return Math.min(p + 1, max);
-                })
-              }
-              className="px-2 py-1 rounded border"
-            >
-              &gt;
-            </button>
-          </div>
-        </div> */}
       </div>
+
+      <div className="text-sm text-gray-600">Showing {filtered.length} applications</div>
     </div>
   );
 }

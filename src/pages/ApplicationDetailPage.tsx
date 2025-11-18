@@ -1,8 +1,15 @@
-// src/pages/ApplicationDetailPage.tsx
 import React from "react";
 import { useParams, useLocation } from "react-router-dom";
-import { Collapse, Select, Button, Divider } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { Collapse, Select, Button, Divider, Checkbox } from "antd";
+import {
+  DownOutlined,
+  CheckSquareOutlined,
+  ShareAltOutlined,
+  SwapRightOutlined,
+  InfoCircleOutlined,
+  CloseCircleOutlined,
+  BarsOutlined,
+} from "@ant-design/icons";
 
 const { Panel } = Collapse;
 
@@ -19,33 +26,32 @@ const MOCK_APP: AppDetail = {
   title: "Hunt DCA - Large Predator (Lion) - Inspect & Recommend",
   udrNumber: "BOJ 12340/9/2025",
   sections: [
-    { key: "applicant-details", title: "Applicant Details", content: null }, // special render
-    { key: "permit-holder", title: "Permit Holder Details", content: null }, // special render
+    { key: "applicant-details", title: "Applicant Details", content: null },
+    { key: "permit-holder", title: "Permit Holder Details", content: null },
     { key: "validity", title: "Validity Period", content: null },
     { key: "time-frame", title: "Time Frame", content: null },
     { key: "activities", title: "Activities", content: null },
     { key: "methods", title: "Methods", content: null },
     { key: "species", title: "Species", content: null },
     { key: "foreigners", title: "Foreigners", content: null },
-    { key: "other-parties", title: "Other Parties Involved", content: <div className="text-sm text-gray-700">Owner: John Doe</div> },
-    { key: "affected-parties", title: "Affected Parties", content: <div className="text-sm text-gray-700">No affected parties recorded</div> },
-    { key: "facilities", title: "Facilities", content: <div className="text-sm text-gray-700">Facilities details here</div> },
-    { key: "properties", title: "Properties", content: <div className="text-sm text-gray-700">Properties details here</div> },
-    { key: "hunters", title: "Hunters", content: <div className="text-sm text-gray-700">Hunters details here</div> },
-    { key: "outfitters", title: "Outfitters", content: <div className="text-sm text-gray-700">Outfitters details here</div> },
-    { key: "transport-from", title: "Transport From", content: <div className="text-sm text-gray-700">Transport from details</div> },
-    { key: "transport-to", title: "Transport To", content: <div className="text-sm text-gray-700">Transport to details</div> },
-    { key: "supporting-docs", title: "Supporting Documents", content: <div className="text-sm text-gray-700">Supporting documents list</div> },
-    { key: "permit-attachments", title: "Permit Attachments (PDFs Preferred)", content: <div className="text-sm text-gray-700">PDF attachments here</div> },
+    { key: "other-parties", title: "Other Parties Involved", content: null },
+    { key: "affected-parties", title: "Affected Parties", content: null },
+    { key: "facilities", title: "Facilities", content: null },
+    { key: "properties", title: "Properties", content: null },
+    { key: "hunters", title: "Hunters", content: null },
+    { key: "outfitters", title: "Outfitters", content: null },
+    { key: "transport-from", title: "Transport From", content: null },
+    { key: "transport-to", title: "Transport To", content: null },
+    { key: "supporting-documents", title: "Supporting Documents", content: null },
+    { key: "permit-attachments", title: "Permit Attachments (PDFs Preferred)", content: null },
     { key: "fees", title: "Fees", content: <div className="text-sm text-gray-700">Fees summary</div> },
     { key: "payments", title: "Payments", content: <div className="text-sm text-gray-700">Payments history</div> },
-    { key: "general-conditions", title: "General & Standard Conditions", content: <div className="text-sm text-gray-700">General conditions content</div> },
-    { key: "special-conditions", title: "Special Conditions", content: <div className="text-sm text-gray-700">Special conditions content</div> },
+    { key: "general-conditions", title: "General & Standard Conditions", content: null },
+    { key: "special-conditions", title: "Special Conditions", content: null },
   ],
 };
 
 function fetchApplicationDetail(id: string): Promise<AppDetail> {
-  // In future: call your API and map fields into sections
   return new Promise((resolve) => {
     setTimeout(() => resolve({ ...MOCK_APP, id, title: MOCK_APP.title }), 250);
   });
@@ -61,6 +67,73 @@ const Labeled = ({ label, value }: { label: string; value: React.ReactNode }) =>
   </div>
 );
 
+/** MyTasksPanel - action bar + checklist */
+function MyTasksPanel() {
+  const [checkedValues, setCheckedValues] = React.useState<string[]>([]);
+
+  const actionButtons = [
+    { key: "recommend", icon: <CheckSquareOutlined />, label: "Recommend" },
+    { key: "defer", icon: <SwapRightOutlined />, label: "Defer" },
+    { key: "forward", icon: <ShareAltOutlined />, label: "Forward" },
+    { key: "request-info", icon: <InfoCircleOutlined />, label: "Request Info" },
+    { key: "not-approved", icon: <CloseCircleOutlined />, label: "Not Approved" },
+  ];
+
+  return (
+    <div className="space-y-6">
+      {/* Green action bar */}
+      <div
+        className="rounded-md border p-3"
+        style={{
+          borderColor: "#3F842E",
+          borderWidth: 1.5,
+          borderRadius: 8,
+        }}
+      >
+        <div className="flex items-center gap-4 flex-wrap">
+          <div className="flex items-center gap-2 px-3 py-1 rounded-md bg-white border border-[#dfeee0]" style={{ minWidth: 160 }}>
+            <BarsOutlined className="text-[#3F842E]" />
+            <strong style={{ color: "#3F842E" }}>Checklist</strong>
+          </div>
+
+          <div className="flex items-center gap-3 flex-wrap">
+            {actionButtons.map((a) => (
+              <button
+                key={a.key}
+                type="button"
+                className="flex items-center gap-2 px-3 py-1 rounded text-sm font-semibold hover:bg-[#f7fff6] focus:outline-none focus:ring-2 focus:ring-[#d9f0dc] transition"
+                aria-label={a.label}
+              >
+                <span className="text-[#3F842E]">{a.icon}</span>
+                <span className="text-xs text-gray-700">{a.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Checklist items */}
+      <div>
+        <Checkbox.Group value={checkedValues} onChange={(vals) => setCheckedValues(vals as string[])}>
+          <div className="flex flex-col gap-4 mt-4">
+            <label className="flex items-center gap-3">
+              <Checkbox value="check-id" />
+              <span className="text-sm">Check For ID</span>
+            </label>
+
+            <label className="flex items-center gap-3">
+              <Checkbox value="check-payment" />
+              <span className="text-sm">Check For Payment Of Application</span>
+            </label>
+
+            {/* You can add more checklist items here */}
+          </div>
+        </Checkbox.Group>
+      </div>
+    </div>
+  );
+}
+
 export default function ApplicationDetailPage() {
   const { id } = useParams<{ id: string }>();
   const location = useLocation();
@@ -69,7 +142,7 @@ export default function ApplicationDetailPage() {
   const [division, setDivision] = React.useState<string | undefined>(undefined);
   const [step, setStep] = React.useState<string | undefined>(undefined);
 
-  // tab state: default to Application
+  // tab state
   const [activeTab, setActiveTab] = React.useState<TabKey>("Application");
 
   React.useEffect(() => {
@@ -91,18 +164,15 @@ export default function ApplicationDetailPage() {
 
   const appTypeFromNav = (location.state as any)?.applicationType as string | undefined;
 
-  // handlers (replace with real API calls)
+  // handlers
   const handleSendForward = () => alert(`Send Forward to division: ${division ?? "none selected"}`);
   const handleSendBack = () => alert(`Send Back to step: ${step ?? "none selected"}`);
   const handlePreview = () => alert("Preview Draft (placeholder)");
 
-  // placeholders for other tabs
   const renderTabPlaceholder = (t: TabKey) => (
     <div className="bg-white rounded-md border border-gray-200 shadow-sm p-6">
       <h3 className="text-lg font-semibold text-gray-800 mb-2">{t}</h3>
-      <p className="text-sm text-gray-600">
-        Placeholder content for <strong>{t}</strong>. Replace with real layout later.
-      </p>
+      <p className="text-sm text-gray-600">Placeholder content for <strong>{t}</strong>. Replace with real layout later.</p>
     </div>
   );
 
@@ -130,26 +200,24 @@ export default function ApplicationDetailPage() {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left: Tabs + content */}
         <div className="lg:col-span-8">
-          {/* Tabs row */}
+          {/* Tabs */}
           <div className="flex flex-wrap items-center gap-3 text-sm mb-3">
-            {(["Application", "My Tasks", "Applicant Dialog", "Official Dialog", "Participants", "Summary"] as TabKey[]).map(
-              (t) => {
-                const active = activeTab === t;
-                return (
-                  <button
-                    key={t}
-                    onClick={() => setActiveTab(t)}
-                    className={`px-3 py-1 rounded-md text-sm font-semibold transition ${active ? "text-[#3F842E]" : "text-gray-600 hover:text-gray-800"}`}
-                    aria-pressed={active}
-                  >
-                    {t}
-                  </button>
-                );
-              }
-            )}
+            {(["Application", "My Tasks", "Applicant Dialog", "Official Dialog", "Participants", "Summary"] as TabKey[]).map((t) => {
+              const active = activeTab === t;
+              return (
+                <button
+                  key={t}
+                  onClick={() => setActiveTab(t)}
+                  className={`px-3 py-1 rounded-md text-sm font-semibold transition ${active ? "text-[#3F842E]" : "text-gray-600 hover:text-gray-800"}`}
+                  aria-pressed={active}
+                >
+                  {t}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Content area */}
+          {/* Content */}
           <div>
             {activeTab === "Application" ? (
               <div className="bg-white rounded-md border border-gray-200 shadow-sm overflow-hidden">
@@ -161,7 +229,7 @@ export default function ApplicationDetailPage() {
                   className="!bg-transparent"
                 >
                   {app?.sections.map((s) => {
-                    // Applicant Details panel (special render)
+                    // Applicant details
                     if (s.key === "applicant-details") {
                       return (
                         <Panel
@@ -177,7 +245,6 @@ export default function ApplicationDetailPage() {
                           className="!border-t !border-gray-100"
                         >
                           <div className="p-4 text-sm text-gray-700 space-y-6">
-                            {/* Personal Details */}
                             <div>
                               <div className="text-sm font-bold text-[#3F842E] mb-3">Personal Details</div>
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -193,7 +260,6 @@ export default function ApplicationDetailPage() {
                               </div>
                             </div>
 
-                            {/* Contact Details */}
                             <div>
                               <div className="text-sm font-bold text-[#3F842E] mb-3">Contact Details</div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -206,7 +272,6 @@ export default function ApplicationDetailPage() {
                               </div>
                             </div>
 
-                            {/* Address Details */}
                             <div>
                               <div className="text-sm font-bold text-[#3F842E] mb-3">Address Details</div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -220,7 +285,6 @@ export default function ApplicationDetailPage() {
                               </div>
                             </div>
 
-                            {/* Post Box */}
                             <div>
                               <div className="text-sm font-bold text-[#3F842E] mb-3">Post Box</div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -237,7 +301,7 @@ export default function ApplicationDetailPage() {
                       );
                     }
 
-                    // Permit Holder panel (rendered similarly to applicant-details but with its own mock values)
+                    // Permit Holder (similar layout)
                     if (s.key === "permit-holder") {
                       return (
                         <Panel
@@ -253,7 +317,6 @@ export default function ApplicationDetailPage() {
                           className="!border-t !border-gray-100"
                         >
                           <div className="p-4 text-sm text-gray-700 space-y-6">
-                            {/* Personal Details (Permit Holder) */}
                             <div>
                               <div className="text-sm font-bold text-[#3F842E] mb-3">Personal Details</div>
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -269,7 +332,6 @@ export default function ApplicationDetailPage() {
                               </div>
                             </div>
 
-                            {/* Contact Details (Permit Holder) */}
                             <div>
                               <div className="text-sm font-bold text-[#3F842E] mb-3">Contact Details</div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -282,7 +344,6 @@ export default function ApplicationDetailPage() {
                               </div>
                             </div>
 
-                            {/* Address Details (Permit Holder) */}
                             <div>
                               <div className="text-sm font-bold text-[#3F842E] mb-3">Address Details</div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -296,7 +357,6 @@ export default function ApplicationDetailPage() {
                               </div>
                             </div>
 
-                            {/* Post Box (Permit Holder) */}
                             <div>
                               <div className="text-sm font-bold text-[#3F842E] mb-3">Post Box</div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -313,7 +373,7 @@ export default function ApplicationDetailPage() {
                       );
                     }
 
-                    // Validity Period panel
+                    // Validity Period
                     if (s.key === "validity") {
                       return (
                         <Panel
@@ -340,7 +400,7 @@ export default function ApplicationDetailPage() {
                       );
                     }
 
-                    // Time Frame panel
+                    // Time Frame
                     if (s.key === "time-frame") {
                       return (
                         <Panel
@@ -368,7 +428,7 @@ export default function ApplicationDetailPage() {
                       );
                     }
 
-                    // Activities panel
+                    // Activities
                     if (s.key === "activities") {
                       return (
                         <Panel
@@ -396,7 +456,7 @@ export default function ApplicationDetailPage() {
                       );
                     }
 
-                    // Methods panel
+                    // Methods
                     if (s.key === "methods") {
                       return (
                         <Panel
@@ -424,7 +484,7 @@ export default function ApplicationDetailPage() {
                       );
                     }
 
-                    // Species panel (with two sub-headings)
+                    // Species (two sub-headings)
                     if (s.key === "species") {
                       return (
                         <Panel
@@ -440,7 +500,6 @@ export default function ApplicationDetailPage() {
                           className="!border-t !border-gray-100"
                         >
                           <div className="p-4 text-sm text-gray-700 space-y-6">
-                            {/* Specie details sub-heading */}
                             <div>
                               <div className="text-sm font-bold text-[#3F842E] mb-3">Specie details</div>
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -453,7 +512,6 @@ export default function ApplicationDetailPage() {
                               </div>
                             </div>
 
-                            {/* Draft Actions sub-heading */}
                             <div>
                               <div className="text-sm font-bold text-[#3F842E] mb-3">Draft Actions</div>
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -467,7 +525,7 @@ export default function ApplicationDetailPage() {
                       );
                     }
 
-                    // Foreigners panel with requested subsections
+                    // Foreigners
                     if (s.key === "foreigners") {
                       return (
                         <Panel
@@ -555,7 +613,585 @@ export default function ApplicationDetailPage() {
                       );
                     }
 
-                    // default for other sections (placeholders already set in MOCK_APP)
+                    // Other Parties Involved
+                    if (s.key === "other-parties") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700 space-y-6">
+                            {/* Personal Details */}
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Personal Details</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <Labeled label="Involvement" value="Witness" />
+                                <Labeled label="Initials" value="J.D." />
+                                <Labeled label="Name" value="John" />
+                                <Labeled label="Surname" value="Doe" />
+                                <Labeled label="Preferred Name" value="Johnny" />
+                                <Labeled label="ID Number" value="7812..." />
+                                <Labeled label="Passport" value="—" />
+                                <Labeled label="Tel Home" value="0111111111" />
+                                <Labeled label="Tel Work" value="0112222222" />
+                                <Labeled label="Mobile" value="0729998888" />
+                                <Labeled label="Alternative Mobile" value="0730007777" />
+                                <Labeled label="Email" value="john.doe@example.com" />
+                                <Labeled label="Website" value="—" />
+                              </div>
+                            </div>
+
+                            {/* Address Details */}
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Address Details</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Residential address type" value="Farm" />
+                                <Labeled label="Farm number" value="123" />
+                                <Labeled label="Farm name" value="Hart Farm" />
+                                <Labeled label="Suburb" value="Cedar" />
+                                <Labeled label="Area Code" value="1234" />
+                                <Labeled label="City/Town" value="Johannesburg" />
+                                <Labeled label="Province" value="Gauteng" />
+                                <Labeled label="Country" value="South Africa" />
+                              </div>
+                            </div>
+
+                            {/* Post Box */}
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Post Box</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Postal number" value="4965" />
+                                <Labeled label="Post office" value="Spar Post Office" />
+                                <Labeled label="Postal code" value="4455" />
+                                <Labeled label="City/Town" value="Johannesburg" />
+                                <Labeled label="Province" value="Gauteng" />
+                                <Labeled label="Country" value="South Africa" />
+                              </div>
+                            </div>
+
+                            {/* Documents */}
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Documents</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Identity document" value="ID Card" />
+                                <Labeled label="Proof of residence" value="Utility bill" />
+                              </div>
+                            </div>
+
+                            {/* Draft Actions */}
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Draft Actions</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <Labeled label="User" value="System Admin" />
+                                <Labeled label="Reason" value="Add party" />
+                                <Labeled label="Date" value="2025-06-30" />
+                              </div>
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // Affected Parties
+                    if (s.key === "affected-parties") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700 space-y-6">
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Personal Details</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <Labeled label="Involvement" value="Owner" />
+                                <Labeled label="Initials" value="J.F." />
+                                <Labeled label="Name" value="Jackie" />
+                                <Labeled label="Surname" value="Hart" />
+                                <Labeled label="Preferred Name" value="Jackie" />
+                                <Labeled label="ID Number" value="N123..." />
+                                <Labeled label="Passport" value="—" />
+                                <Labeled label="Tel Home" value="0114443322" />
+                                <Labeled label="Tel Work" value="0114443322" />
+                                <Labeled label="Mobile" value="0825554499" />
+                                <Labeled label="Alternative Mobile" value="0820001111" />
+                                <Labeled label="Email" value="jackie.hart@email.com" />
+                                <Labeled label="Website" value="—" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Address Details</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Residential Address Type" value="Farm" />
+                                <Labeled label="Farm Number" value="123" />
+                                <Labeled label="Farm Name" value="Hart Farm" />
+                                <Labeled label="Suburb" value="Cedar" />
+                                <Labeled label="Area Code" value="1234" />
+                                <Labeled label="City/Town" value="Johannesburg" />
+                                <Labeled label="Province" value="Gauteng" />
+                                <Labeled label="Country" value="South Africa" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Post Box</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Postal Number" value="4965" />
+                                <Labeled label="Post Office" value="Spar Post Office" />
+                                <Labeled label="Postal Code" value="4455" />
+                                <Labeled label="City/Town" value="Johannesburg" />
+                                <Labeled label="Province" value="Gauteng" />
+                                <Labeled label="Country" value="South Africa" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Documents</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Identity Document" value="ID Card" />
+                                <Labeled label="Proof of Residence" value="Utility bill" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Draft Actions</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <Labeled label="User" value="System Admin" />
+                                <Labeled label="Reason" value="Record affected party" />
+                                <Labeled label="Date" value="2025-07-01" />
+                              </div>
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // Facilities
+                    if (s.key === "facilities") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700 space-y-6">
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Facility Details</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Name" value="Research Centre" />
+                                <Labeled label="Residential Address Type" value="Farm" />
+                                <Labeled label="Farm Number" value="123" />
+                                <Labeled label="Farm Name" value="Hart Farm" />
+                                <Labeled label="Suburb" value="Cedar" />
+                                <Labeled label="Area Code" value="1234" />
+                                <Labeled label="City/Town" value="Johannesburg" />
+                                <Labeled label="Province" value="Gauteng" />
+                                <Labeled label="Country" value="South Africa" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Owner</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Full name" value="Owner Name" />
+                                <Labeled label="Surname" value="Owner Surname" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Draft Actions</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <Labeled label="User" value="System Admin" />
+                                <Labeled label="Reason" value="Add facility" />
+                                <Labeled label="Date" value="2025-05-10" />
+                              </div>
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // Properties
+                    if (s.key === "properties") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700 space-y-6">
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Facility Details</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Name" value="Research Centre" />
+                                <Labeled label="Title Deed No" value="TD-12345" />
+                                <Labeled label="Size / Hectares" value="500" />
+                                <Labeled label="Residential Address Type" value="Farm" />
+                                <Labeled label="Farm Number" value="123" />
+                                <Labeled label="Farm Name" value="Hart Farm" />
+                                <Labeled label="Suburb" value="Cedar" />
+                                <Labeled label="Area Code" value="1234" />
+                                <Labeled label="City/Town" value="Johannesburg" />
+                                <Labeled label="Province" value="Gauteng" />
+                                <Labeled label="Country" value="South Africa" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Owner</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Full name" value="Owner Name" />
+                                <Labeled label="Surname" value="Owner Surname" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Draft Actions</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <Labeled label="User" value="System Admin" />
+                                <Labeled label="Reason" value="Add property" />
+                                <Labeled label="Date" value="2025-04-22" />
+                              </div>
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // Hunters
+                    if (s.key === "hunters") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700 space-y-4">
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Pro Hunter Details</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Name" value="Luke" />
+                                <Labeled label="Surname" value="Smith" />
+                                <Labeled label="PH Number" value="PH-001" />
+                                <Labeled label="Mobile Number" value="0721112222" />
+                                <Labeled label="Tel Number" value="0113334444" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Draft Actions</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <Labeled label="User" value="System Admin" />
+                                <Labeled label="Reason" value="Add hunter" />
+                                <Labeled label="Date" value="2025-03-15" />
+                              </div>
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // Outfitters
+                    if (s.key === "outfitters") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700 space-y-4">
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Outfitter Details</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <Labeled label="Name" value="Outfitter Co" />
+                                <Labeled label="Surname" value="N/A" />
+                                <Labeled label="HC Number" value="HC-777" />
+                                <Labeled label="Mobile Number" value="0725556666" />
+                                <Labeled label="Tel Number" value="0117778888" />
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Draft Actions</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <Labeled label="User" value="System Admin" />
+                                <Labeled label="Reason" value="Add outfitter" />
+                                <Labeled label="Date" value="2025-02-12" />
+                              </div>
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // Transport From
+                    if (s.key === "transport-from") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700 space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              <Labeled label="Property Name" value="Hart Farm" />
+                              <Labeled label="Owner Name and Surname" value="Jackie Hart" />
+                              <Labeled label="Port of Exit" value="OR Tambo" />
+                              <Labeled label="Property Number" value="123" />
+                              <Labeled label="Title Deed Number" value="TD-12345" />
+                              <Labeled label="Size/ Hectares" value="500" />
+                              <Labeled label="Farm / Street No" value="123" />
+                              <Labeled label="Building Name" value="Main Lodge" />
+                              <Labeled label="Suburb" value="Cedar" />
+                              <Labeled label="Area Code" value="1234" />
+                              <Labeled label="City / Town" value="Johannesburg" />
+                              <Labeled label="District / Region" value="Region 1" />
+                              <Labeled label="State / Province" value="Gauteng" />
+                              <Labeled label="Country" value="South Africa" />
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // Transport To
+                    if (s.key === "transport-to") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700 space-y-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              <Labeled label="Property Name" value="Destination Farm" />
+                              <Labeled label="Owner Name and Surname" value="Dest Owner" />
+                              <Labeled label="Port of Exit" value="OR Tambo" />
+                              <Labeled label="Property Number" value="999" />
+                              <Labeled label="Title Deed Number" value="TD-99999" />
+                              <Labeled label="Size/ Hectares" value="300" />
+                              <Labeled label="Farm / Street No" value="999" />
+                              <Labeled label="Building Name" value="Reception" />
+                              <Labeled label="Suburb" value="Green" />
+                              <Labeled label="Area Code" value="4321" />
+                              <Labeled label="City / Town" value="Pretoria" />
+                              <Labeled label="District / Region" value="Region X" />
+                              <Labeled label="State / Province" value="Gauteng" />
+                              <Labeled label="Country" value="South Africa" />
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // Supporting Documents
+                    if (s.key === "supporting-documents") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700">
+                            {/* 3-column layout - filename / tag / verified */}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-4">
+                              <div>
+                                <div className="text-sm font-bold text-[#3F842E] mb-2">File Name</div>
+                                <div className="text-sm">ID Jack.pdf</div>
+                                <div className="text-sm mt-2">Proofofresidence.pdf</div>
+                                <div className="text-sm mt-2">permit.pdf</div>
+                              </div>
+
+                              <div>
+                                <div className="text-sm font-bold text-[#3F842E] mb-2">Tag / Verification</div>
+                                <div className="text-sm">ID</div>
+                                <div className="text-sm mt-2">Proof of Residence</div>
+                                <div className="text-sm mt-2">Permit</div>
+                              </div>
+
+                              <div>
+                                <div className="text-sm font-bold text-[#3F842E] mb-2">Verified</div>
+                                <div className="text-sm">Verified by Jomo Ngcobo 12/09/2025</div>
+                                <div className="text-sm mt-2">Verified by Jomo Ngcobo 12/09/2025</div>
+                                <div className="text-sm mt-2">Verified by Jomo Ngcobo 12/09/2025</div>
+                              </div>
+                            </div>
+
+                            <div>
+                              <div className="text-sm font-bold text-[#3F842E] mb-3">Draft Actions</div>
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <Labeled label="User" value="Verifier" />
+                                <Labeled label="Reason" value="Document check" />
+                                <Labeled label="Date" value="2025-09-12" />
+                              </div>
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // Permit Attachments
+                    if (s.key === "permit-attachments") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700">
+                            <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+                              <div className="font-semibold">File Name</div>
+                              <div className="font-semibold">User</div>
+                              <div className="font-semibold">Reason</div>
+                              <div className="font-semibold">Date</div>
+
+                              <div className="col-span-1">permit.pdf</div>
+                              <div className="col-span-1">Jack</div>
+                              <div className="col-span-1">Initial upload</div>
+                              <div className="col-span-1">2025-09-01</div>
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // General & Standard Conditions
+                    if (s.key === "general-conditions") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center mb-3">
+                              <div className="font-semibold">Name</div>
+                              <div className="font-semibold">Description</div>
+                              <div className="font-semibold" />
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
+                              <div>General Conditions - All Permits</div>
+                              <div>Signed</div>
+                              <div>
+                                <Button type="primary" style={{ background: "#3F842E", borderColor: "#3F842E" }}>
+                                  Preview
+                                </Button>
+                              </div>
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // Special Conditions
+                    if (s.key === "special-conditions") {
+                      return (
+                        <Panel
+                          header={
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex items-center gap-3">
+                                <span className="text-sm font-semibold">{s.title}</span>
+                              </div>
+                              <div className="text-xs text-gray-500" />
+                            </div>
+                          }
+                          key={s.key}
+                          className="!border-t !border-gray-100"
+                        >
+                          <div className="p-4 text-sm text-gray-700">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                              <Labeled label="Name" value="Special Condition A" />
+                              <Labeled label="Description" value="Only allowed during specified period" />
+                              <Labeled label="User" value="Admin" />
+                              <Labeled label="Reason" value="Safety" />
+                              <Labeled label="Date" value="2025-07-20" />
+                            </div>
+                          </div>
+                        </Panel>
+                      );
+                    }
+
+                    // default for any other panel (fallback content)
                     return (
                       <Panel
                         header={
@@ -581,14 +1217,15 @@ export default function ApplicationDetailPage() {
                   )}
                 </Collapse>
               </div>
+            ) : activeTab === "My Tasks" ? (
+              <MyTasksPanel />
             ) : (
-              // placeholder for other tabs
               <div className="space-y-4">{renderTabPlaceholder(activeTab)}</div>
             )}
           </div>
         </div>
 
-        {/* Right: Application Info column (unchanged) */}
+        {/* Right column - Application Info */}
         <div className="lg:col-span-4">
           <div className="bg-white rounded-md p-5 shadow-[0_8px_20px_rgba(0,0,0,0.06)] border border-gray-200" style={{ borderRadius: 8 }}>
             <h3 className="text-lg font-bold mb-3">Application Info</h3>
@@ -649,6 +1286,16 @@ export default function ApplicationDetailPage() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+// helper placeholder renderer (kept below)
+function renderTabPlaceholder(t: TabKey) {
+  return (
+    <div className="bg-white rounded-md border border-gray-200 shadow-sm p-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-2">{t}</h3>
+      <p className="text-sm text-gray-600">Placeholder content for <strong>{t}</strong>. Replace with real layout later.</p>
     </div>
   );
 }
