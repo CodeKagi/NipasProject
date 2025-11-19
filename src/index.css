@@ -16,61 +16,58 @@
   font-family: 'Inter', sans-serif;
 }
 
-/* apply only the padding & spacing; heights come from AG Grid props now */
+
 .custom-ag-grid.ag-theme-quartz {
   border-radius: 0.5rem;
   overflow: hidden;
 }
 
-/* Header background + bold */
+
 .custom-ag-grid .ag-header {
   background: #D9D9D9;
   color: #111827;
   font-weight: 700;
 }
 
-/* Header cell inner label padding (controls vertical space inside header) */
 .custom-ag-grid .ag-header-cell .ag-header-cell-label {
-  padding: 14px 18px; /* vertical + horizontal padding like your design */
+  padding: 14px 18px; 
   display: flex;
   align-items: center;
     color: #000;
     font-weight: 700;
 }
 
-/* subtle header bottom divider */
+
 .custom-ag-grid .ag-header-cell {
   border-bottom: 1px solid rgba(0,0,0,0.06);
 }
 
-/* Body cell padding and alignment; don't change row height here */
+
 .custom-ag-grid .ag-cell {
-  padding: 12px 16px !important;  /* breathing room for cell contents */
-  align-items: center;            /* keep text vertically centered */
-  display: flex;                  /* helps text align properly */
+  padding: 12px 16px !important; 
+  align-items: center;          
+  display: flex;                
   font-size: 0.95rem;
   line-height: 1.2;
 }
 
-/* Ensure multi-line cell content wraps nicely */
+
 .custom-ag-grid .ag-cell .ag-cell-value {
   white-space: normal;
   word-break: break-word;
 }
 
-/* Row hover */
+
 .custom-ag-grid .ag-row.ag-row-hover,
 .custom-ag-grid .ag-row:hover {
   background-color: #fbfdfe;
   cursor: pointer;
 }
 
-/* Optional: adjust header sort icon color/size if used */
 .custom-ag-grid .ag-header-cell-label .ag-header-icon {
   color: #111827;
 }
 
-/* Make AntD Select match Input height & padding */
 .custom-select-padding .ant-select-selector {
   height: 48px !important;
   padding: 12px 14px !important;
