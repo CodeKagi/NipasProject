@@ -9,8 +9,8 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import type { ColDef, RowClickedEvent } from "ag-grid-community";
 
 import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
-    
-    ModuleRegistry.registerModules([ AllCommunityModule ])
+
+ModuleRegistry.registerModules([AllCommunityModule])
 
 type UserRole = "user" | "admin" | "central-officer";
 
@@ -247,7 +247,7 @@ export function CentralOfficerApplicationsView() {
   return (
     <div className="space-y-4">
       {/* Search + page size */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      {/* <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div className="flex-1">
           <Input
             placeholder="Search by ID, applicant, or type..."
@@ -266,10 +266,47 @@ export function CentralOfficerApplicationsView() {
             style={{ width: 120 }}
           />
         </div>
+      </div> */}
+
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+
+        {/* Search Bar */}
+        <div className="flex-1">
+          <div className="relative w-full">
+            {/* Search Icon */}
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-lg">
+              🔍
+            </span>
+
+            <Input
+              placeholder="Search by ID, applicant, or type..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              allowClear
+              className="rounded-md pl-10 py-3 text-base"
+            />
+          </div>
+        </div>
+
+        {/* Page Size Dropdown */}
+        <div className="flex items-center gap-3">
+          <Select
+            value={pageSize}
+            onChange={(val) => setPageSize(Number(val))}
+            options={[5, 10, 25, 50].map((n) => ({
+              label: `${n} entries`,
+              value: n
+            }))}
+            style={{ width: 170 }}
+            className="h-[48px] flex items-center text-base custom-select-padding"
+          />
+        </div>
+
       </div>
 
+
       {/* AG Grid container */}
-      <div className="ag-theme-quartz h-[600px] w-full rounded-lg border border-gray-200 shadow">
+      <div className="ag-theme-quartz h-[600px] w-full rounded-lg border border-gray-200 shadow custom-ag-grid">
         <AgGridReact<AppRow>
           rowData={filtered}
           columnDefs={columnDefs}
@@ -277,11 +314,18 @@ export function CentralOfficerApplicationsView() {
           paginationPageSize={pageSize}
           onRowClicked={onRowClicked}
           rowSelection="single"
-          defaultColDef={{ resizable: true, sortable: false, filter: false }}
+          // <- set heights here so AG Grid applies them to all rows reliably
+          headerHeight={56}
+          rowHeight={56}
+          defaultColDef={{
+            resizable: true,
+            sortable: false,
+            filter: false,
+            headerClass: "custom-header-cell",
+          }}
           overlayLoadingTemplate={'<span class="loading">Loading...</span>'}
         />
       </div>
-
       <div className="text-sm text-gray-600">Showing {filtered.length} applications</div>
     </div>
   );

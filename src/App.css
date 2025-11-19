@@ -40,3 +40,42 @@
 .read-the-docs {
   color: #888;
 }
+
+/* AG Grid header + cells styling */
+.custom-ag-grid .ag-header {
+  background-color: red;        /* light gray header bg */
+  color: #111827;                  /* near-black text */
+  font-weight: 700;                /* bold header text */
+}
+
+/* Individual header cells: spacing + subtle bottom border */
+.custom-ag-grid .ag-header-cell {
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  padding:2rem !important; /* reset - we'll pad the inner label */
+}
+
+/* header label/inner cell text spacing */
+.custom-ag-grid .ag-header-cell .ag-header-cell-label {
+  padding: 2rem;       /* same vertical rhythm as your design */
+  display: flex;
+  align-items: center;
+}
+
+/* body cells spacing */
+.custom-ag-grid .ag-cell {
+  padding: 2rem;               /* more breathing room inside cells */
+  font-size: 0.95rem;
+}
+
+/* row hover effect */
+.custom-ag-grid .ag-row:hover {
+  background-color: #fbfdfe;      /* very subtle hover */
+  cursor: pointer;
+  background-color: red;
+}
+
+/* optional: small shadow / rounded corners preserved on container */
+.custom-ag-grid.ag-theme-quartz {
+  border-radius: 0.5rem; /* matches rounded-lg */
+  overflow: hidden; /* keep header rounding clean */
+}
