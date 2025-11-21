@@ -178,7 +178,7 @@ export default function Payments() {
                 </div>
 
                 {/* Bottom security logos row */}
-                <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-[10px] text-gray-400">
+                <div className="mt-8 flex flex-wrap items-center justify-center gap-4 text-[10px] ">
                     {[
                         "SECURE",
                         "3D SECURE",
@@ -193,7 +193,7 @@ export default function Payments() {
                     ].map((label) => (
                         <div
                             key={label}
-                            className="px-3 py-1 rounded-full border border-gray-200 bg-gray-50"
+                            className="px-3 py-1 rounded-full text-white border border-gray-700 bg-[#3F842E]"
                         >
                             {label}
                         </div>
