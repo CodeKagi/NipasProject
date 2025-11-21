@@ -64,6 +64,7 @@ const CENTRAL_OFFICER_MENU: MenuItemShape[] = [
   { key: "/dashboard/completed", icon: "completed", label: "Completed", allowedRoles: ["CENTRAL_OFFICER"] },
   { key: "/dashboard/deferred", icon: "deferred", label: "Deferred", allowedRoles: ["CENTRAL_OFFICER"] },
   { key: "/dashboard/pending-info", icon: "pending-info", label: "Pending Information", allowedRoles: ["CENTRAL_OFFICER"] },
+  { key: "/dashboard/payments", icon: "", label: "payment", allowedRoles: ["CENTRAL_OFFICER"] }
 ];
 
 function renderIcon(icon?: string | React.ReactNode, collapsed = false) {
