@@ -57,6 +57,7 @@ const DEFAULT_MENU: MenuItemShape[] = [
   { key: "/dashboard/user-profile", icon: userProfileIcon, label: "User Profile", allowedRoles: ["ADMIN", "PROCESSOR"] },
   { key: "/dashboard/biodiversity-projects", icon: biodiversityProjectsIcon, label: "Biodiversity Projects", allowedRoles: ["ADMIN", "PROCESSOR"] },
   { key: "/dashboard/stakeholder", icon: stakeholderIcon, label: "Stakeholder", allowedRoles: ["ADMIN"] },
+   { key: "/dashboard/payments", icon: "", label: "payment", allowedRoles: ["ADMIN"] }
 ];
 
 const CENTRAL_OFFICER_MENU: MenuItemShape[] = [
